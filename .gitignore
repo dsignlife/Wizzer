@@ -7,9 +7,6 @@
 /.vs
 /Wizzer/.vs/config
 /Wizzer/Wizzer/bin/Debug/netcoreapp2.0
-/Wizzer/Wizzer/wwwroot/lib/bootstrap/node_modules
-/Wizzer/Wizzer/wwwroot/lib/jquery-validation/node_modules
-/Wizzer/Wizzer/wwwroot/lib/jquery-validation/npm-debug.log
+/Wizzer/Wizzer/wwwroot/lib
 /Wizzer/Wizzer/config.json
 /Wizzer/Wizzer/Data/Migrations
-/Wizzer/Wizzer/wwwroot/lib
