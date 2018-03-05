@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
+using Wizzer.Data;
+using Wizzer.Data.Repositories;
 using Wizzer.Services;
 using Wizzer.ViewModels;
 
@@ -12,10 +14,12 @@ namespace Wizzer.Controllers
 {
     public class AppController : Controller
     {
+        private readonly IWizzerRepository _repository;
         private readonly IMailService _mailService;
 
-        public AppController(IMailService mailService)
+        public AppController(IWizzerRepository repository, IMailService mailService)
         {
+            _repository = repository;
             _mailService = mailService;
         }
 
@@ -58,5 +62,13 @@ namespace Wizzer.Controllers
 
             return View();
         }
+
+        public IActionResult Shop()
+        {
+            var results = _repository.GetAllProducts();
+
+            return View(results);
+        }
+
     }
 }

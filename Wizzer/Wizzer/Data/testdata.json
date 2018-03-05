@@ -1,0 +1,66 @@
+[
+  {
+    "Id": 0,
+    "Category": "Category1",
+    "Price": 89.99,
+    "Title": "Self-portrait",
+    "Description": "Description of this product"
+  },
+  {
+    "Id": 0,
+    "Category": "Category1",
+    "Price": 29.99,
+    "Title": "Test33",
+    "Description": "Description of this product"
+  },
+  {
+    "Id": 0,
+    "Category": "Category1",
+    "Price": 42.99,
+    "Title": "Test33",
+    "Description": "Description of this product"
+  },
+  {
+    "Id": 0,
+    "Category": "Category1",
+    "Price": 9.99,
+    "Title": "Test33",
+    "Description": "Description of this product"
+  },
+  {
+    "Id": 0,
+    "Category": "Category2",
+    "Price": 0.95,
+    "Title": "Test33",
+    "Description": "Description of this product"
+  },
+  {
+    "Id": 0,
+    "Category": "Category2",
+    "Price": 1,
+    "Title": "Test33",
+    "Description": "Description of this product"
+  },
+  {
+    "Id": 0,
+    "Category": "Category2",
+    "Price": 2999,
+    "Title": "Test33",
+    "Description": "Description of this product"
+  },
+  {
+    "Id": 0,
+    "Category": "Category3",
+    "Price": 4,
+    "Title": "Test33",
+    "Description": "Description of this product"
+  },
+  {
+    "Id": 0,
+    "Category": "Category4",
+    "Price": 299,
+    "Title": "TEST242",
+    "Description": "Description of this product"
+  }
+
+]

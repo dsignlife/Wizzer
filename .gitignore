@@ -10,3 +10,5 @@
 /Wizzer/Wizzer/wwwroot/lib/bootstrap/node_modules
 /Wizzer/Wizzer/wwwroot/lib/jquery-validation/node_modules
 /Wizzer/Wizzer/wwwroot/lib/jquery-validation/npm-debug.log
+/Wizzer/Wizzer/config.json
+/Wizzer/Wizzer/Data/Migrations
