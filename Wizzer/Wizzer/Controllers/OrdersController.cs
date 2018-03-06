@@ -30,10 +30,8 @@ namespace Wizzer.Controllers
         public IActionResult Get(bool includeItems = true)
         {
             try {
-
                 var results = _repository.GetAllOrders(includeItems);
-
-                return Ok(_mapper.Map<List<Order>, List<OrderViewModel>>(_repository.GetAllOrders(includeItems)));
+                return Ok(_mapper.Map<List<Order>, List<OrderViewModel>>(results));
             }
             catch (Exception e) {
                 _logger.LogError($"Failed to GetAllOrders: {e} ");
@@ -71,7 +69,6 @@ namespace Wizzer.Controllers
 
                 if (newOrder.OrderDate == DateTime.MinValue) {
                     newOrder.OrderDate = DateTime.Now;
-
                 }
 
                 if (ModelState.IsValid) {
