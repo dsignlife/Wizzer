@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -28,6 +29,8 @@ namespace Wizzer
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            //Add Nuget Package
+            services.AddAutoMapper();
 
             services.AddDbContext<WizzerContext>(config => {
                 config.UseSqlServer(_configuration.GetConnectionString("WizzerConnection"));
@@ -36,7 +39,8 @@ namespace Wizzer
             services.AddTransient<WizzerSeeder>();
 
             services.AddScoped<IWizzerRepository, WizzerRepository>();
-            services.AddMvc();
+            services.AddMvc()
+                .AddJsonOptions(option => option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
 
         }

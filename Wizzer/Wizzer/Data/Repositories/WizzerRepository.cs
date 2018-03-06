@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Wizzer.Data.Entities;
 
@@ -46,5 +47,27 @@ namespace Wizzer.Data.Repositories
             return _context.SaveChanges() > 0;
         }
 
+        public void AddEntity(object model)
+        {
+            _context.Add(model);
+        }
+
+        public List<Order> GetAllOrders(bool includeItems)
+        {
+            return includeItems ? _context.Orders
+                                          .Include(i => i.Items)
+                                          .ThenInclude(p => p.Product)
+                                          .ToList() : _context.Orders
+                                                              .Include(i => i.Items)
+                                                              .ToList();
+        }
+
+        public Order GetOrderById(int id)
+        {
+            return _context.Orders
+                           .Include(i => i.Items)
+                           .ThenInclude(p => p.Product)
+                           .FirstOrDefault(d => d.Id == id);
+        }
     }
 }

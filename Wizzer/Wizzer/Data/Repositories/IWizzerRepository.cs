@@ -8,5 +8,8 @@ namespace Wizzer.Data.Repositories
         List<Product> GetAllProducts();
         List<Product> GetAllProductsByCategory(string category);
         bool SaveAll();
+        void AddEntity(object model);
+        List<Order> GetAllOrders(bool includeItems);
+        Order GetOrderById(int id);
     }
 }
