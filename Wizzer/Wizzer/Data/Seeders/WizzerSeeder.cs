@@ -5,8 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using Wizzer.Data.Entities;
+using Wizzer.Data.Identities;
 
 namespace Wizzer.Data.Seeders
 {
@@ -14,21 +16,40 @@ namespace Wizzer.Data.Seeders
     {
         private readonly WizzerContext _context;
         private readonly IHostingEnvironment _hosting;
+        private readonly UserManager<User> _userManager;
 
-        public WizzerSeeder(WizzerContext context, IHostingEnvironment hosting)
+        public WizzerSeeder(WizzerContext context, IHostingEnvironment hosting, UserManager<User> userManager)
         {
             _context = context;
             _hosting = hosting;
+            _userManager = userManager;
         }
 
-        public void Seed()
+        public async Task Seed()
         {
             _context.Database.EnsureCreated();
+
+
+            var user = await _userManager.FindByEmailAsync("elin.lund@wizzer.se");
+            if (user == null) {
+                user = new User() {
+                    FirstName = "Elin",
+                    LastName = "Lund",
+                    UserName = "elin.lund@wizzer.se",
+                    Email = "elin.lund@wizzer.se"
+
+                };
+
+                var result = await _userManager.CreateAsync(user, "ElinLund20");
+                if (result != IdentityResult.Success)
+                    throw new InvalidOperationException("Failed to create DefaultLogin");
+            }
+
 
             //If there is nothing in Product
             if (_context.Products.Any())
                 return;
-            var filepath = Path.Combine(_hosting.ContentRootPath, "Data/testdata.json");
+            var filepath = Path.Combine(_hosting.ContentRootPath, "Data/Seeders/testdata.json");
             var json = File.ReadAllText(filepath);
             var products = JsonConvert.DeserializeObject<List<Product>>(json);
             _context.Products.AddRange(products);
@@ -37,6 +58,7 @@ namespace Wizzer.Data.Seeders
             {
                 OrderDate = DateTime.Now,
                 OrderNumber = "1235",
+                User = user,
                 Items = new List<OrderItem>() {
                     new OrderItem() {
                         Product = products.First(),

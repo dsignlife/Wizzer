@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
 using Wizzer.Data;
@@ -63,6 +64,7 @@ namespace Wizzer.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Shop()
         {
             var results = _repository.GetAllProducts();

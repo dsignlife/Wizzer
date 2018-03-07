@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Wizzer.Data.Entities;
+using Wizzer.Data.Identities;
 
 namespace Wizzer.Data
 {
-    public class WizzerContext : DbContext
+    public class WizzerContext : IdentityDbContext<User>
     {
         public WizzerContext(DbContextOptions<WizzerContext> options) : base(options)
         {

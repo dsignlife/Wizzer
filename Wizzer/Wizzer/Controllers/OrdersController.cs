@@ -45,24 +45,21 @@ namespace Wizzer.Controllers
         {
             try {
                 var order = _repository.GetOrderById(id);
-                if (order != null)
-                return Ok(_mapper.Map<Order, OrderViewModel>(order));
-                else {
-                   return NotFound();
+                if (order != null) {
+                    return Ok(_mapper.Map<Order, OrderViewModel>(order));
                 }
+                return NotFound();
             }
             catch (Exception e)
             {
                 _logger.LogError($"Failed to GetOrderById: {e} ");
                 return BadRequest("Failed to GetOrderById");
-
             }
         }
 
         [HttpPost]
         public IActionResult Post([FromBody]OrderViewModel model)
         {
-
             try {
 
                 var newOrder = _mapper.Map<OrderViewModel, Order>(model);
