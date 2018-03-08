@@ -30,23 +30,25 @@ namespace Wizzer.Data.Seeders
             _context.Database.EnsureCreated();
 
 
-            var user = await _userManager.FindByEmailAsync("elin.lund@wizzer.se");
-            if (user == null) {
-                user = new User() {
-                    FirstName = "Elin",
-                    LastName = "Lund",
-                    UserName = "elin.lund@wizzer.se",
-                    Email = "elin.lund@wizzer.se"
-
+            var user = await _userManager.FindByEmailAsync("eva.odin@wizzer.se");
+            if (user == null)
+            {
+                user = new User()
+                {
+                    FirstName = "Eva",
+                    LastName = "Odin",
+                    UserName = "eva.odin@wizzer.se",
+                    Email = "eva.odin@wizzer.se"
                 };
 
-                var result = await _userManager.CreateAsync(user, "ElinLund20");
+                var result = await _userManager.CreateAsync(user, "EvaOdin10");
                 if (result != IdentityResult.Success)
+                {
                     throw new InvalidOperationException("Failed to create DefaultLogin");
+                }
             }
 
-
-            //If there is nothing in Product
+            //If there is something in Product
             if (_context.Products.Any())
                 return;
             var filepath = Path.Combine(_hosting.ContentRootPath, "Data/Seeders/testdata.json");
