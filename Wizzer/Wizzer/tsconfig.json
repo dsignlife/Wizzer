@@ -2,7 +2,7 @@
   "compileOnSave": false,
   "include": ["./Frontend","./wwwroot/ts"],
   "compilerOptions": {
-    "outDir": ".wwwroot/frontend/out-tsc",
+    "outDir": "./wwwroot/frontend/out-tsc",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",

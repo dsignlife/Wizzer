@@ -9,12 +9,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var AppComponent = /** @class */ (function () {
     function AppComponent() {
-        this.title = 'Wizzer Project';
+        this.title = 'Product List';
     }
     AppComponent = __decorate([
         core_1.Component({
             selector: 'the-shop',
-            template: "\n    <h1>Hello</h1>\n  ",
+            templateUrl: "./app.component.html",
             styles: []
         })
     ], AppComponent);
