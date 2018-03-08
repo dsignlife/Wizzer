@@ -62,12 +62,26 @@ namespace Wizzer.Data.Repositories
                                                               .ToList();
         }
 
-        public Order GetOrderById(int id)
+        public Order GetOrderById(string username, int id)
         {
             return _context.Orders
                            .Include(i => i.Items)
                            .ThenInclude(p => p.Product)
+                           .Where(o => o.Id == id && o.User.UserName == username)
                            .FirstOrDefault(d => d.Id == id);
+        }
+
+        public List<Order> GetAllOrdersByUser(string username, bool includeItems)
+        {
+            return includeItems ? _context.Orders
+                                          .Where(u => u.User.UserName == username)
+                                          .Include(i => i.Items)
+                                          .ThenInclude(p => p.Product)
+                                          .ToList() : _context.Orders
+                                                              .Where(u => u.User.UserName == username)
+                                                              .Include(i => i.Items)
+                                                              .ToList();
+
         }
     }
 }

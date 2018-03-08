@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Wizzer.Data.Entities;
@@ -13,6 +15,7 @@ using Wizzer.ViewModels;
 namespace Wizzer.Controllers
 {
     [Route("/api/orders/{orderid}/items")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class OrderItemsController : Controller
     {
         private readonly IWizzerRepository _repository;
@@ -29,26 +32,24 @@ namespace Wizzer.Controllers
         [HttpGet]
         public IActionResult Get(int orderId)
         {
-            var order = _repository.GetOrderById(orderId);
-            if (order != null)
-                return Ok(_mapper.Map<IEnumerable<OrderItem>, IEnumerable<OrderItemViewModel>>(order.Items));
-            else {
-                return NotFound();
-            }
+            var order = _repository.GetOrderById(User.Identity.Name, orderId);
+            if (order != null) return Ok(_mapper.Map<IEnumerable<OrderItem>, IEnumerable<OrderItemViewModel>>(order.Items));
+            return NotFound();
+
         }
 
 
         [HttpGet("{id}")]
         public IActionResult Get(int orderId, int id)
         {
-            var order = _repository.GetOrderById(orderId);
+            var order = _repository.GetOrderById(User.Identity.Name, orderId);
             if (order == null)
                 return NotFound();
 
             var item = order.Items.FirstOrDefault(i => i.Id == id);
             if (item != null) return Ok(_mapper.Map<IEnumerable<OrderItem>, IEnumerable<OrderItemViewModel>>(order.Items));
             return NotFound();
-             
+
         }
 
 

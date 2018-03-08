@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Wizzer.Data.Entities;
+using Wizzer.Data.Identities;
 using Wizzer.Data.Repositories;
 using Wizzer.ViewModels;
 
@@ -21,22 +23,28 @@ namespace Wizzer.Controllers
         private readonly IWizzerRepository _repository;
         private readonly ILogger<OrdersController> _logger;
         private readonly IMapper _mapper;
+        private readonly UserManager<User> _userManager;
 
-        public OrdersController(IWizzerRepository repository, ILogger<OrdersController> logger, IMapper mapper)
+        public OrdersController(IWizzerRepository repository, ILogger<OrdersController> logger, IMapper mapper, UserManager<User> userManager)
         {
             _repository = repository;
             _logger = logger;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         [HttpGet]
         public IActionResult Get(bool includeItems = true)
         {
-            try {
-                var results = _repository.GetAllOrders(includeItems);
+            try
+            {
+                var username = User.Identity.Name;
+
+                var results = _repository.GetAllOrdersByUser(username, includeItems);
                 return Ok(_mapper.Map<List<Order>, List<OrderViewModel>>(results));
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 _logger.LogError($"Failed to GetAllOrders: {e} ");
                 return BadRequest("Failed to GetAllOrders");
 
@@ -46,9 +54,11 @@ namespace Wizzer.Controllers
         [HttpGet("{id:int}")]
         public IActionResult Get(int id)
         {
-            try {
-                var order = _repository.GetOrderById(id);
-                if (order != null) {
+            try
+            {
+                var order = _repository.GetOrderById(User.Identity.Name, id);
+                if (order != null)
+                {
                     return Ok(_mapper.Map<Order, OrderViewModel>(order));
                 }
                 return NotFound();
@@ -61,34 +71,31 @@ namespace Wizzer.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody]OrderViewModel model)
+        public async Task<IActionResult> Post([FromBody]OrderViewModel model)
         {
-            try {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var newOrder = _mapper.Map<OrderViewModel, Order>(model);
 
-                var newOrder = _mapper.Map<OrderViewModel, Order>(model);
-
-                if (newOrder.OrderDate == DateTime.MinValue) {
-                    newOrder.OrderDate = DateTime.Now;
-                }
-
-                if (ModelState.IsValid) {
-                    _repository.AddEntity(model);
-                    if (_repository.SaveAll()) {
-
-                        var vm = new OrderViewModel() {
-                            OrderId = newOrder.Id,
-                            OrderDate = newOrder.OrderDate,
-                            OrderNumber = newOrder.OrderNumber
-                        };
-
-                        return Created($"api/orders/{newOrder.Id}", _mapper.Map<Order, OrderViewModel>(newOrder));
-
+                    if (newOrder.OrderDate == DateTime.MinValue)
+                    {
+                        newOrder.OrderDate = DateTime.Now;
                     }
+
+                    var currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
+                    newOrder.User = currentUser;
+
+                    _repository.AddEntity(newOrder);
+                    if (_repository.SaveAll())
+                    {
+                        return Created($"api/orders/{newOrder.Id}", _mapper.Map<Order, OrderViewModel>(newOrder));
+                    }
+
                 }
-                else {
+                else
                     return BadRequest(ModelState);
-                }
-               
             }
             catch (Exception e)
             {
