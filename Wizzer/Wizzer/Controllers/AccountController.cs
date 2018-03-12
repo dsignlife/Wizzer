@@ -58,6 +58,8 @@ namespace Wizzer.Controllers
             }
 
             ModelState.AddModelError("", "Failed to login");
+            _logger.LogInformation("{USER} logged in at {Date}");
+
             return View();
         }
 
@@ -65,6 +67,7 @@ namespace Wizzer.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
+            _logger.LogInformation("{USER} logged out at {Date}");
             return RedirectToAction("Index", "App");
         }
 
@@ -101,7 +104,7 @@ namespace Wizzer.Controllers
                 token = new JwtSecurityTokenHandler().WriteToken(token),
                 expiration = token.ValidTo
             };
-
+            //_logger.LogInformation("{results.token} requested by {USER} valid to {results.expiration}");
             return Created("", results);
         }
     }

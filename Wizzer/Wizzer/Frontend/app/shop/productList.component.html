@@ -1,5 +1,13 @@
 ﻿<div class="row">
-    <ul>
-        <li *ngFor="let p of products">{{p.title}}: {{p.price}}</li>
-    </ul>
+    
+    <div class="product-info col-md-4 well well-sm" *ngFor="let p of products">
+        <img src="/img/{{p.category}}.jpg" class="img-responsive" alt="" />
+        <h3 style="font-size: large; font-weight: bold;">{{p.title}}</h3>
+        <div><strong>Price:</strong> {{p.price}}</div>
+        <div><strong>Category:</strong> {{p.category}}</div>
+        <div><strong>Description :</strong> {{p.description}}</div>
+        
+        <button id="buyButton" class="btn btn-success btn-sm pull-right" (click)="addProduct(p)">Buy</button>
+    </div>
+    
 </div>
