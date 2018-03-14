@@ -24,12 +24,16 @@
     "core-js": "^2.4.1",
     "rxjs": "^5.5.6",
     "zone.js": "^0.8.19",
-    "lodash" : "4.17.5" 
+    "lodash": "4.17.5"
   },
   "devDependencies": {
     "@angular/cli": "~1.7.3",
     "@angular/compiler-cli": "^5.2.0",
     "@angular/language-service": "^5.2.0",
+    "gulp": "3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-htmlclean": "^2.7.20",
+    "gulp-uglify": "^3.0.0",
     "typescript": "~2.5.3"
   }
 }
