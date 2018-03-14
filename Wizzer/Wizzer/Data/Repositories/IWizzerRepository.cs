@@ -11,6 +11,7 @@ namespace Wizzer.Data.Repositories
         List<Order> GetAllOrders(bool includeItems);
         List<Order> GetAllOrdersByUser(string username, bool includeItems);
         Order GetOrderById(string username, int id);
+        void AddOrder(Order newOrder);
 
         bool SaveAll();
         void AddEntity(object model);

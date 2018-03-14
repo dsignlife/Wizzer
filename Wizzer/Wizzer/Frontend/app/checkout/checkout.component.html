@@ -1,6 +1,7 @@
 ﻿<div class="col-md-8 col-md-offset-2">
     <div class="well">
         <div class="row">
+            <div *ngIf="errorMessage" class="alert alert-warning">{{ errorMessage }}</div>
             <h3>Confirm Order</h3>
             <table class="table table-bordered table-hover">
                 <tr *ngFor="let o of data.order.items">

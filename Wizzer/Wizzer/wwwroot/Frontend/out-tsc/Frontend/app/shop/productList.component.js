@@ -19,7 +19,11 @@ var ProductList = /** @class */ (function () {
     ProductList.prototype.ngOnInit = function () {
         var _this = this;
         this.data.loadProducts()
-            .subscribe(function () { return _this.products = _this.data.products; });
+            .subscribe(function (success) {
+            if (success) {
+                _this.products = _this.data.products;
+            }
+        });
     };
     ProductList.prototype.addProduct = function (product) {
         this.data.addToOrder(product);

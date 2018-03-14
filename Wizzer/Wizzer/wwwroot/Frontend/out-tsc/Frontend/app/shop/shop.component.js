@@ -13,6 +13,8 @@ var Shop = /** @class */ (function () {
     Shop = __decorate([
         core_1.Component({
             selector: "the-shop",
+            templateUrl: "shop.component.html",
+            styleUrls: []
         })
     ], Shop);
     return Shop;

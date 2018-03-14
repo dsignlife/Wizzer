@@ -64,7 +64,6 @@ namespace Wizzer.Controllers
             return View();
         }
 
-        [Authorize]
         public IActionResult Shop()
         {
 

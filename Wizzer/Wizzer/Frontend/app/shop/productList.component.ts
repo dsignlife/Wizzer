@@ -2,7 +2,6 @@
 import { DataService } from "../shared/dataService";
 import { ObjectProduct } from "../shared/objectProduct";
 
-
 @Component({
     selector: "product-list",
     templateUrl: "productList.component.html",
@@ -17,10 +16,13 @@ export class ProductList implements OnInit {
         this.products = data.products;
     }
 
-    public ngOnInit(): void {
+    ngOnInit() {
         this.data.loadProducts()
-            .subscribe(() => this.products = this.data.products);
-
+            .subscribe(success => {
+                if (success) {
+                    this.products = this.data.products;
+                }
+            });
     }
 
     public addProduct(product: ObjectProduct) {

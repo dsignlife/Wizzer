@@ -57,11 +57,8 @@ namespace Wizzer.Controllers
             try
             {
                 var order = _repository.GetOrderById(User.Identity.Name, id);
-                if (order != null)
-                {
-                    return Ok(_mapper.Map<Order, OrderViewModel>(order));
-                }
-                return NotFound();
+                if (order != null) return Ok(_mapper.Map<Order, OrderViewModel>(order));
+                else return NotFound();
             }
             catch (Exception e)
             {
@@ -87,7 +84,7 @@ namespace Wizzer.Controllers
                     var currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
                     newOrder.User = currentUser;
 
-                    _repository.AddEntity(newOrder);
+                    _repository.AddOrder(newOrder);
                     if (_repository.SaveAll())
                     {
                         return Created($"api/orders/{newOrder.Id}", _mapper.Map<Order, OrderViewModel>(newOrder));
@@ -99,9 +96,9 @@ namespace Wizzer.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError($"Failed to SaveOrder: {e} ");
+                _logger.LogError($"Failed to save new order: {e} ");
             }
-            return BadRequest("Failed to SaveOrder");
+            return BadRequest("Failed to Save new order");
 
         }
 
