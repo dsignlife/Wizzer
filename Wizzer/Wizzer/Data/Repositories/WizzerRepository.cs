@@ -20,6 +20,27 @@ namespace Wizzer.Data.Repositories
             _logger = logger;
         }
 
+        public void AddEntity(object model)
+        {
+            _context.Add(model);
+        }
+
+        public void AddOrder(Order newOrder)
+        {
+            foreach (var item in newOrder.Items)
+            {
+                item.Product = _context.Products.Find(item.Product.Id);
+            }
+
+            AddEntity(newOrder);
+        }
+
+        public bool SaveAll()
+        {
+            return _context.SaveChanges() > 0;
+        }
+
+
         public List<Product> GetAllProducts()
         {
 
@@ -42,25 +63,6 @@ namespace Wizzer.Data.Repositories
             return _context.Products.Where(c => c.Category == category).ToList();
         }
 
-        public bool SaveAll()
-        {
-            return _context.SaveChanges() > 0;
-        }
-
-        public void AddEntity(object model)
-        {
-            _context.Add(model);
-        }
-
-        public void AddOrder(Order newOrder)
-        {
-            foreach (var item in newOrder.Items)
-            {
-                item.Product = _context.Products.Find(item.Product.Id);
-            }
-
-            AddEntity(newOrder);
-        }
 
         public List<Order> GetAllOrders(bool includeItems)
         {

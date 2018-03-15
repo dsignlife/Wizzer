@@ -10,12 +10,12 @@ var platform_browser_1 = require("@angular/platform-browser");
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var app_component_1 = require("./app.component");
-var productList_component_1 = require("./shop/productList.component");
-var cart_component_1 = require("./shop/cart.component");
+var productList_component_1 = require("./shop/product/productList.component");
+var cart_component_1 = require("./shop/cart/cart.component");
 var shop_component_1 = require("./shop/shop.component");
 var checkout_component_1 = require("./checkout/checkout.component");
 var login_component_1 = require("./login/login.component");
-var dataService_1 = require("./shared/dataService");
+var shopService_1 = require("./shop/shopService");
 var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
 var routes = [
@@ -42,7 +42,7 @@ var AppModule = /** @class */ (function () {
                 http_1.HttpModule,
                 router_1.RouterModule.forRoot(routes, { useHash: true, enableTracing: false })
             ],
-            providers: [dataService_1.DataService],
+            providers: [shopService_1.ShopService],
             bootstrap: [app_component_1.AppComponent]
         })
     ], AppModule);

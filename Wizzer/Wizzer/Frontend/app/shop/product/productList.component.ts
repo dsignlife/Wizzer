@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit } from "@angular/core";
-import { DataService } from "../shared/dataService";
-import { ObjectProduct } from "../shared/objectProduct";
+import { ProductService as productService } from "./productService";
+import { Product } from "./product";
 
 @Component({
     selector: "product-list",
@@ -10,9 +10,9 @@ import { ObjectProduct } from "../shared/objectProduct";
 
 export class ProductList implements OnInit {
 
-    public products: ObjectProduct[];
+    public products: Product[];
 
-    constructor(private data: DataService) {
+    constructor(private data: productService) {
         this.products = data.products;
     }
 
@@ -25,8 +25,8 @@ export class ProductList implements OnInit {
             });
     }
 
-    public addProduct(product: ObjectProduct) {
-        this.data.addToOrder(product);
-    }
+    //public addProduct(product: Product) {
+    //    this.data.addToOrder(product);
+    //}
 
 }

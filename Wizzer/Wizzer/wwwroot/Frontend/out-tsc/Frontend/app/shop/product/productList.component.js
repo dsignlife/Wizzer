@@ -10,31 +10,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var shopService_1 = require("../shop/shopService");
-var router_1 = require("@angular/router");
-var Checkout = /** @class */ (function () {
-    function Checkout(data, router) {
+var productService_1 = require("./productService");
+var ProductList = /** @class */ (function () {
+    function ProductList(data) {
         this.data = data;
-        this.router = router;
+        this.products = data.products;
     }
-    Checkout.prototype.onCheckout = function () {
+    ProductList.prototype.ngOnInit = function () {
         var _this = this;
-        this.data.checkout()
+        this.data.loadProducts()
             .subscribe(function (success) {
             if (success) {
-                _this.router.navigate(["/"]);
+                _this.products = _this.data.products;
             }
-        }, function (err) { return _this.errorMessage = "Failed to save order"; });
+        });
     };
-    Checkout = __decorate([
+    ProductList = __decorate([
         core_1.Component({
-            selector: "checkout",
-            templateUrl: "checkout.component.html",
-            styleUrls: ["checkout.component.css"]
+            selector: "product-list",
+            templateUrl: "productList.component.html",
+            styleUrls: ["productList.component.css"]
         }),
-        __metadata("design:paramtypes", [shopService_1.ShopService, router_1.Router])
-    ], Checkout);
-    return Checkout;
+        __metadata("design:paramtypes", [productService_1.ProductService])
+    ], ProductList);
+    return ProductList;
 }());
-exports.Checkout = Checkout;
-//# sourceMappingURL=checkout.component.js.map
+exports.ProductList = ProductList;
+//# sourceMappingURL=productList.component.js.map

@@ -6,6 +6,7 @@
     <link href="~/lib/font-awesome/web-fonts-with-css/css/fontawesome-all.min.css" rel="stylesheet" />
     <link href="~/css/site.css" rel="stylesheet" />
 </head>
+
 <body>
     <div class="navbar navbar-default">
         <header class="container">
@@ -20,10 +21,12 @@
                     <li><a asp-controller="App" asp-action="Contact">Contact</a></li>
                     <li><a asp-controller="App" asp-action="About">About</a></li>
                     <li><a asp-controller="App" asp-action="Shop">Shop</a></li>
-                    @if (User.Identity.IsAuthenticated) {
+                    @if (User.Identity.IsAuthenticated)
+                    {
                         <li><a asp-controller="Account" asp-action="Logout">Logout</a></li>
                     }
-                    else {
+                    else
+                    {
                         <li><a asp-controller="Account" asp-action="Login">Login</a></li>
                     }
 
@@ -36,14 +39,25 @@
         @RenderBody()
     </section>
 
-    <footer class="container">
-        <div class="navbar-fixed-bottom text-center">Wizzer Project</div>
-    </footer>
+    <div id="footer" class="container-fluid">
+        <div class="navbar-inverse navbar-fixed-bottom" style="background-color: transparent;">
+            <h4 class="text-center ">&copy; Wizzer Project</h4>
+        </div>
+    </div>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="~/js/index.js"></script>
 
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/index.js"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="~/dist/wizzer.min.js" asp-append-version="true"></script>
+    </environment>
     @RenderSection("scripts", false)
 
 

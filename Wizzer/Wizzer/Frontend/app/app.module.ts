@@ -4,15 +4,17 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 
-import { ProductList } from './shop/productList.component';
-import { Cart } from './shop/cart.component';
+import { ProductList } from './shop/product/productList.component';
+import { Cart } from './shop/cart/cart.component';
 import { Shop } from './shop/shop.component';
 
 import { Checkout } from "./checkout/checkout.component";
 import { Login } from './login/login.component';
 
+import { ShopService } from './shop/shopService';
 
-import { DataService } from "./shared/dataService";
+
+
 import { RouterModule } from "@angular/router";
 
 import { FormsModule } from '@angular/forms';
@@ -43,7 +45,7 @@ let routes = [
             RouterModule.forRoot(routes, { useHash: true, enableTracing: false })
 
         ],
-        providers: [DataService],
+    providers: [ShopService],
         bootstrap: [AppComponent]
     })
 

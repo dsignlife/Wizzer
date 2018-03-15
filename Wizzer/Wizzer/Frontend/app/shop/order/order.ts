@@ -7,7 +7,7 @@ export class Order {
     items: Array<OrderItem> = new Array<OrderItem>();
 
     get subtotal(): number {
-        return  _.sum(_.map(this.items, i => i.unitPrice * i.quantity));
+        return _.sum(_.map(this.items, i => i.unitPrice * i.quantity));
     };
 
 }

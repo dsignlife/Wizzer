@@ -1,5 +1,6 @@
 ﻿import { Component } from "@angular/core";
-import { DataService } from '../shared/dataService';
+import { CheckoutService } from './checkoutService';
+
 import { Router } from "@angular/router";
 
 
@@ -12,12 +13,12 @@ export class Checkout {
 
     public errorMessage: string;
 
-    constructor(public data: DataService, private router: Router) {
+    constructor(public checkoutService: CheckoutService, private router: Router) {
 
     }
 
     public onCheckout() {
-        this.data.checkout()
+        this.checkoutService.checkout()
             .subscribe(success => {
                 if (success) {
                     this.router.navigate(["/"]);

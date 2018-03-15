@@ -17,11 +17,15 @@
 
     var $loginToggle = $("#loginToggle");
     var $popupForm = $(".popup-form");
+    var $cartToggle = $("#cartToggle");
 
     $loginToggle.on("click", function () {
         $popupForm.slideToggle(1000);
     });
 
+    $cartToggle.on("click", function () {
+        $popupForm.slideToggle(500);
+    });
 
 
 });

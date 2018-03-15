@@ -1,5 +1,5 @@
 ﻿import { Component } from "@angular/core";
-import { DataService } from '../shared/dataService';
+import { ShopService } from '../shop/shopService';
 import { Router } from "@angular/router";
 
 @Component({
@@ -11,7 +11,7 @@ export class Login {
     public creds = { username: "", password: "" }
     public errorMessage: string;
 
-    constructor(private data: DataService, private router: Router) {
+    constructor(private data: ShopService, private router: Router) {
 
     }
 

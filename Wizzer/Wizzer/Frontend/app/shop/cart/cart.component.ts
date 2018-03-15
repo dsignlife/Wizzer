@@ -1,5 +1,5 @@
 ﻿import { Component } from "@angular/core";
-import { DataService } from "../shared/dataService";
+import { LoginService } from "../../login/loginService";
 import { Router } from "@angular/router";
 
 @Component({
@@ -10,7 +10,7 @@ import { Router } from "@angular/router";
 
 export class Cart
 {
-    constructor(public data: DataService, private router : Router) {
+    constructor(public data: LoginService, private router : Router) {
         
     }
 

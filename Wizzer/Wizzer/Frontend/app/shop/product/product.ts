@@ -1,4 +1,4 @@
-﻿export class ObjectProduct {
+﻿export class Product {
     id: number;
     category: string;
     price: number;

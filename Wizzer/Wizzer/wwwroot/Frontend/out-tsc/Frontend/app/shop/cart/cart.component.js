@@ -10,36 +10,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var shopService_1 = require("../shop/shopService");
+var loginService_1 = require("../../login/loginService");
 var router_1 = require("@angular/router");
-var Login = /** @class */ (function () {
-    function Login(data, router) {
+var Cart = /** @class */ (function () {
+    function Cart(data, router) {
         this.data = data;
         this.router = router;
-        this.creds = { username: "", password: "" };
     }
-    Login.prototype.onLogin = function () {
-        var _this = this;
-        this.data.login(this.creds)
-            .subscribe(function (done) {
-            if (done) {
-                if (_this.data.order.items.length == 0) {
-                    _this.router.navigate([""]);
-                }
-                else {
-                    _this.router.navigate(["checkout"]);
-                }
-            }
-        }, function (err) { return _this.errorMessage = "Failed to login"; });
+    Cart.prototype.onCheckout = function () {
+        if (this.data.loginRequired) {
+            this.router.navigate(["login"]);
+        }
+        else {
+            this.router.navigate(["checkout"]);
+        }
     };
-    Login = __decorate([
+    Cart = __decorate([
         core_1.Component({
-            selector: "login",
-            templateUrl: "login.component.html"
+            selector: "the-cart",
+            templateUrl: "cart.component.html",
+            styleUrls: []
         }),
-        __metadata("design:paramtypes", [shopService_1.ShopService, router_1.Router])
-    ], Login);
-    return Login;
+        __metadata("design:paramtypes", [loginService_1.LoginService, router_1.Router])
+    ], Cart);
+    return Cart;
 }());
-exports.Login = Login;
-//# sourceMappingURL=login.component.js.map
+exports.Cart = Cart;
+//# sourceMappingURL=cart.component.js.map
