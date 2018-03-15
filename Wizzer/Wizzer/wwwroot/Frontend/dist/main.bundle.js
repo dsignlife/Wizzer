@@ -20,7 +20,7 @@ webpackEmptyAsyncContext.id = "./Frontend/$$_lazy_route_resource lazy recursive"
 /***/ "./Frontend/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-dark bg-inverse\">\r\n    <div class=\"container\">\r\n        <a class=\"navbar-brand navbar-left\">Angular Router</a>\r\n        <ul class=\"navbar-left\" routerLinkActive=\"active\">\r\n            <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"\">Home</a></li>\r\n            <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"shop\">Shop</a></li>\r\n            <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"contact\">Contact</a></li>\r\n        </ul>\r\n    </div>\r\n</nav>\r\n\r\n\r\n<router-outlet></router-outlet>"
+module.exports = "<!--<nav class=\"navbar navbar-dark bg-inverse\">\r\n    <div class=\"container\">\r\n        <a class=\"navbar-brand navbar-left\">Angular Router</a>\r\n        <ul class=\"navbar-left\" routerLinkActive=\"active\">\r\n            <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"\">Home</a></li>\r\n            <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"shop\">Shop</a></li>\r\n            <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"login\">Login</a></li>\r\n            <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"checkout\">Checkout</a></li>\r\n            <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"contact\">Contact</a></li>\r\n        </ul>\r\n    </div>\r\n</nav>-->\r\n<topnavbar></topnavbar>\r\n<router-outlet></router-outlet>"
 
 /***/ }),
 
@@ -75,19 +75,20 @@ var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.j
 var forms_1 = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
 //Components
 var app_component_1 = __webpack_require__("./Frontend/app/app.component.ts");
+var topnavbar_component_1 = __webpack_require__("./Frontend/app/topnavbar/topnavbar.component.ts");
 var home_component_1 = __webpack_require__("./Frontend/app/home/home.component.ts");
 var login_component_1 = __webpack_require__("./Frontend/app/login/login.component.ts");
 var productList_component_1 = __webpack_require__("./Frontend/app/shop/product/productList.component.ts");
 var cart_component_1 = __webpack_require__("./Frontend/app/shop/cart/cart.component.ts");
 var shop_component_1 = __webpack_require__("./Frontend/app/shop/shop.component.ts");
-var checkout_component_1 = __webpack_require__("./Frontend/app/checkout/checkout.component.ts");
+var checkout_component_1 = __webpack_require__("./Frontend/app/shop/checkout/checkout.component.ts");
 //DataServices
 var loginService_1 = __webpack_require__("./Frontend/app/login/loginService.ts");
 var shopService_1 = __webpack_require__("./Frontend/app/shop/shopService.ts");
 var routes = [
     { path: "", component: home_component_1.Home },
     { path: "shop", component: shop_component_1.Shop },
-    { path: "checkout", component: checkout_component_1.Checkout },
+    { path: "shop/checkout", component: checkout_component_1.Checkout },
     { path: "login", component: login_component_1.Login }
 ];
 var AppModule = /** @class */ (function () {
@@ -97,6 +98,7 @@ var AppModule = /** @class */ (function () {
         core_1.NgModule({
             declarations: [
                 app_component_1.AppComponent,
+                topnavbar_component_1.Topnavbar,
                 home_component_1.Home,
                 productList_component_1.ProductList,
                 cart_component_1.Cart,
@@ -121,71 +123,10 @@ exports.AppModule = AppModule;
 
 /***/ }),
 
-/***/ "./Frontend/app/checkout/checkout.component.css":
-/***/ (function(module, exports) {
-
-module.exports = ".checkout-thumb { max-width: 100px; }"
-
-/***/ }),
-
-/***/ "./Frontend/app/checkout/checkout.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"col-md-8 col-md-offset-2\">\r\n    <div class=\"well\">\r\n        <div class=\"row\">\r\n            <div *ngIf=\"errorMessage\" class=\"alert alert-warning\">{{ errorMessage }}</div>\r\n            <h3>Confirm Order</h3>\r\n            <table class=\"table table-bordered table-hover\">\r\n                <tr *ngFor=\"let o of data.order.items\">\r\n                    <td><img src=\"/img/{{ o.productCategory }}.jpg\" class=\"img-thumbnail checkout-thumb\" alt=\"\" /></td>\r\n                    <td>{{ o.productCategory }} - {{ o.productTitle }}</td>\r\n                    <td>{{ o.quantity }}</td>\r\n                    <td>{{ o.unitPrice|currency:'SEK':true }}</td>\r\n                    <td>{{ (o.unitPrice * o.quantity)|currency:'SEK':true }}</td>\r\n                </tr>\r\n            </table>\r\n            <div class=\"col-md-4 col-md-offset-8 text-right\">\r\n                <table class=\"table table-condensed\">\r\n                    <tr>\r\n                        <td class=\"text-right\">Subtotal</td>\r\n                        <td class=\"text-right\">{{ data.order.subtotal|currency:'SEK':true }}</td>\r\n                    </tr>\r\n                    <tr>\r\n                        <td class=\"text-right\">Additional</td>\r\n                        <td class=\"text-right\">$ 0.00</td>\r\n                    </tr>\r\n                    <tr>\r\n                        <td class=\"text-right\">Total:</td>\r\n                        <td class=\"text-right\">{{ data.order.subtotal|currency:'SEK':true }}</td>\r\n                    </tr>\r\n                </table>\r\n                <button class=\"btn btn-success\" (click)=\"onCheckout()\">Complete Purchase</button>\r\n                <a routerLink=\"/\" class=\"btn btn-info\">Cancel</a>\r\n            </div>\r\n        </div>\r\n\r\n    </div>\r\n</div>\r\n"
-
-/***/ }),
-
-/***/ "./Frontend/app/checkout/checkout.component.ts":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-var shopService_1 = __webpack_require__("./Frontend/app/shop/shopService.ts");
-var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
-var Checkout = /** @class */ (function () {
-    function Checkout(data, router) {
-        this.data = data;
-        this.router = router;
-    }
-    Checkout.prototype.onCheckout = function () {
-        var _this = this;
-        this.data.checkout()
-            .subscribe(function (success) {
-            if (success) {
-                _this.router.navigate(["/"]);
-            }
-        }, function (err) { return _this.errorMessage = "Failed to save order"; });
-    };
-    Checkout = __decorate([
-        core_1.Component({
-            selector: "checkout",
-            template: __webpack_require__("./Frontend/app/checkout/checkout.component.html"),
-            styles: [__webpack_require__("./Frontend/app/checkout/checkout.component.css")]
-        }),
-        __metadata("design:paramtypes", [shopService_1.ShopService, router_1.Router])
-    ], Checkout);
-    return Checkout;
-}());
-exports.Checkout = Checkout;
-
-
-/***/ }),
-
 /***/ "./Frontend/app/home/home.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n    <div class=\"col-md-12\">\r\n        <h2>TEST FROM ANGULAR</h2>\r\n    </div>\r\n</div>\r\n"
+module.exports = "<div class=\"row\">\r\n    <div class=\"col-md-12\">\r\n        <h2>HomeContent</h2>\r\n    </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -260,7 +201,7 @@ var Login = /** @class */ (function () {
                     _this.router.navigate([""]);
                 }
                 else {
-                    _this.router.navigate(["checkout"]);
+                    _this.router.navigate(["shop/checkout"]);
                 }
             }
         }, function (err) { return _this.errorMessage = "Failed to login"; });
@@ -381,6 +322,67 @@ var Cart = /** @class */ (function () {
     return Cart;
 }());
 exports.Cart = Cart;
+
+
+/***/ }),
+
+/***/ "./Frontend/app/shop/checkout/checkout.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ".checkout-thumb { max-width: 100px; }"
+
+/***/ }),
+
+/***/ "./Frontend/app/shop/checkout/checkout.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"col-md-8 col-md-offset-2\">\r\n    <div class=\"well\">\r\n        <div class=\"row\">\r\n            <div *ngIf=\"errorMessage\" class=\"alert alert-warning\">{{ errorMessage }}</div>\r\n            <h3>Confirm Order</h3>\r\n            <table class=\"table table-bordered table-hover\">\r\n                <tr *ngFor=\"let o of data.order.items\">\r\n                    <td><img src=\"/img/{{ o.productCategory }}.jpg\" class=\"img-thumbnail checkout-thumb\" alt=\"\" /></td>\r\n                    <td>{{ o.productCategory }} - {{ o.productTitle }}</td>\r\n                    <td>{{ o.quantity }}</td>\r\n                    <td>{{ o.unitPrice|currency:'SEK':true }}</td>\r\n                    <td>{{ (o.unitPrice * o.quantity)|currency:'SEK':true }}</td>\r\n                </tr>\r\n            </table>\r\n            <div class=\"col-md-4 col-md-offset-8 text-right\">\r\n                <table class=\"table table-condensed\">\r\n                    <tr>\r\n                        <td class=\"text-right\">Subtotal</td>\r\n                        <td class=\"text-right\">{{ data.order.subtotal|currency:'SEK':true }}</td>\r\n                    </tr>\r\n                    <tr>\r\n                        <td class=\"text-right\">Additional</td>\r\n                        <td class=\"text-right\">$ 0.00</td>\r\n                    </tr>\r\n                    <tr>\r\n                        <td class=\"text-right\">Total:</td>\r\n                        <td class=\"text-right\">{{ data.order.subtotal|currency:'SEK':true }}</td>\r\n                    </tr>\r\n                </table>\r\n                <button class=\"btn btn-success\" (click)=\"onCheckout()\">Complete Purchase</button>\r\n                <a routerLink=\"/\" class=\"btn btn-info\">Cancel</a>\r\n            </div>\r\n        </div>\r\n\r\n    </div>\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "./Frontend/app/shop/checkout/checkout.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var shopService_1 = __webpack_require__("./Frontend/app/shop/shopService.ts");
+var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+var Checkout = /** @class */ (function () {
+    function Checkout(data, router) {
+        this.data = data;
+        this.router = router;
+    }
+    Checkout.prototype.onCheckout = function () {
+        var _this = this;
+        this.data.checkout()
+            .subscribe(function (success) {
+            if (success) {
+                _this.router.navigate(["/"]);
+            }
+        }, function (err) { return _this.errorMessage = "Failed to save order"; });
+    };
+    Checkout = __decorate([
+        core_1.Component({
+            selector: "checkout",
+            template: __webpack_require__("./Frontend/app/shop/checkout/checkout.component.html"),
+            styles: [__webpack_require__("./Frontend/app/shop/checkout/checkout.component.css")]
+        }),
+        __metadata("design:paramtypes", [shopService_1.ShopService, router_1.Router])
+    ], Checkout);
+    return Checkout;
+}());
+exports.Checkout = Checkout;
 
 
 /***/ }),
@@ -596,6 +598,48 @@ var ShopService = /** @class */ (function () {
     return ShopService;
 }());
 exports.ShopService = ShopService;
+
+
+/***/ }),
+
+/***/ "./Frontend/app/topnavbar/topnavbar.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"navbar navbar-default\">\r\n    <header class=\"container\">\r\n        <div class=\"navbar-header\">\r\n            <div class=\"navbar-brand\"><i class=\"fa fa-shopping-bag\"></i> Wizzer Project</div>\r\n            <button class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#menu\">&#9776;</button>\r\n        </div>\r\n\r\n        <div id=\"menu\" class=\"collapse navbar-collapse\">\r\n            <ul class=\"nav navbar-nav\">\r\n                <li><a routerLink=\"\">Home</a></li>\r\n                <li><a routerLink=\"contact\">Contact</a></li>\r\n                <li><a routerLink=\"checkout\">Checkout</a></li>\r\n                <li><a routerLink=\"shop\">Shop</a></li>\r\n\r\n                <li ng-if=\"!user.identity.isAuthenticated\"><a routerLink=\"login\">Login</a></li>\r\n                <li ng-if=\"user.identity.isAuthenticated\"><a routerLink=\"login\">Logout</a></li>\r\n\r\n            </ul>\r\n        </div>\r\n    </header>\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "./Frontend/app/topnavbar/topnavbar.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+var Topnavbar = /** @class */ (function () {
+    function Topnavbar(router) {
+        this.router = router;
+    }
+    Topnavbar = __decorate([
+        core_1.Component({
+            selector: "topnavbar",
+            template: __webpack_require__("./Frontend/app/topnavbar/topnavbar.component.html")
+        }),
+        __metadata("design:paramtypes", [router_1.Router])
+    ], Topnavbar);
+    return Topnavbar;
+}());
+exports.Topnavbar = Topnavbar;
 
 
 /***/ }),

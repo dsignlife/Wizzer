@@ -14,19 +14,20 @@ var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
 //Components
 var app_component_1 = require("./app.component");
+var topnavbar_component_1 = require("./topnavbar/topnavbar.component");
 var home_component_1 = require("./home/home.component");
 var login_component_1 = require("./login/login.component");
 var productList_component_1 = require("./shop/product/productList.component");
 var cart_component_1 = require("./shop/cart/cart.component");
 var shop_component_1 = require("./shop/shop.component");
-var checkout_component_1 = require("./checkout/checkout.component");
+var checkout_component_1 = require("./shop/checkout/checkout.component");
 //DataServices
 var loginService_1 = require("./login/loginService");
 var shopService_1 = require("./shop/shopService");
 var routes = [
     { path: "", component: home_component_1.Home },
     { path: "shop", component: shop_component_1.Shop },
-    { path: "checkout", component: checkout_component_1.Checkout },
+    { path: "shop/checkout", component: checkout_component_1.Checkout },
     { path: "login", component: login_component_1.Login }
 ];
 var AppModule = /** @class */ (function () {
@@ -36,6 +37,7 @@ var AppModule = /** @class */ (function () {
         core_1.NgModule({
             declarations: [
                 app_component_1.AppComponent,
+                topnavbar_component_1.Topnavbar,
                 home_component_1.Home,
                 productList_component_1.ProductList,
                 cart_component_1.Cart,

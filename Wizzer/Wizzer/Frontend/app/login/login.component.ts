@@ -22,7 +22,7 @@ export class Login {
                     if (this.data.order.items.length == 0) {
                         this.router.navigate([""]);
                     } else {
-                        this.router.navigate(["checkout"]);
+                        this.router.navigate(["shop/checkout"]);
                     }
                 }
             }, err => this.errorMessage = "Failed to login");

@@ -10,36 +10,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var shopService_1 = require("../shop/shopService");
+var shopService_1 = require("../shopService");
 var router_1 = require("@angular/router");
-var Login = /** @class */ (function () {
-    function Login(data, router) {
+var Checkout = /** @class */ (function () {
+    function Checkout(data, router) {
         this.data = data;
         this.router = router;
-        this.creds = { username: "", password: "" };
     }
-    Login.prototype.onLogin = function () {
+    Checkout.prototype.onCheckout = function () {
         var _this = this;
-        this.data.login(this.creds)
-            .subscribe(function (done) {
-            if (done) {
-                if (_this.data.order.items.length == 0) {
-                    _this.router.navigate([""]);
-                }
-                else {
-                    _this.router.navigate(["shop/checkout"]);
-                }
+        this.data.checkout()
+            .subscribe(function (success) {
+            if (success) {
+                _this.router.navigate(["/"]);
             }
-        }, function (err) { return _this.errorMessage = "Failed to login"; });
+        }, function (err) { return _this.errorMessage = "Failed to save order"; });
     };
-    Login = __decorate([
+    Checkout = __decorate([
         core_1.Component({
-            selector: "login",
-            templateUrl: "login.component.html"
+            selector: "checkout",
+            templateUrl: "checkout.component.html",
+            styleUrls: ["checkout.component.css"]
         }),
         __metadata("design:paramtypes", [shopService_1.ShopService, router_1.Router])
-    ], Login);
-    return Login;
+    ], Checkout);
+    return Checkout;
 }());
-exports.Login = Login;
-//# sourceMappingURL=login.component.js.map
+exports.Checkout = Checkout;
+//# sourceMappingURL=checkout.component.js.map
