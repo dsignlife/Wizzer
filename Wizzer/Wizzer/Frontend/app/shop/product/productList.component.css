@@ -1,7 +1,7 @@
 ﻿.product-info img {
-    width: 150px;
-    height:  150px;
-    float: left;
-    margin: 0 2px;
     border: solid 1px black;
+    float: left;
+    height: 150px;
+    margin: 0 2px;
+    width: 150px;
 }

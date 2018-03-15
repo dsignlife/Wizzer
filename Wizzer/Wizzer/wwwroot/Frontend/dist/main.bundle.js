@@ -39,7 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var AppComponent = /** @class */ (function () {
     function AppComponent() {
-        this.title = 'Product List';
+        this.title = 'Wizzer';
     }
     AppComponent = __decorate([
         core_1.Component({
@@ -67,21 +67,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+//Modules
 var platform_browser_1 = __webpack_require__("./node_modules/@angular/platform-browser/esm5/platform-browser.js");
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var http_1 = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
+var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+var forms_1 = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
+//Components
 var app_component_1 = __webpack_require__("./Frontend/app/app.component.ts");
-//Pages
-var productList_component_1 = __webpack_require__("./Frontend/app/shop/product/productList.component.ts");
 var login_component_1 = __webpack_require__("./Frontend/app/login/login.component.ts");
+var productList_component_1 = __webpack_require__("./Frontend/app/shop/product/productList.component.ts");
 var cart_component_1 = __webpack_require__("./Frontend/app/shop/cart/cart.component.ts");
 var shop_component_1 = __webpack_require__("./Frontend/app/shop/shop.component.ts");
 var checkout_component_1 = __webpack_require__("./Frontend/app/checkout/checkout.component.ts");
 //DataServices
 var loginService_1 = __webpack_require__("./Frontend/app/login/loginService.ts");
 var shopService_1 = __webpack_require__("./Frontend/app/shop/shopService.ts");
-var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
-var forms_1 = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
 var routes = [
     { path: "", component: shop_component_1.Shop },
     { path: "checkout", component: checkout_component_1.Checkout },
@@ -120,7 +121,7 @@ exports.AppModule = AppModule;
 /***/ "./Frontend/app/checkout/checkout.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ".checkout-thumb {\n  max-width: 100px;\n}\n"
+module.exports = ".checkout-thumb { max-width: 100px; }"
 
 /***/ }),
 
@@ -181,7 +182,7 @@ exports.Checkout = Checkout;
 /***/ "./Frontend/app/login/login.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n    <div class=\"col-md-4 col-md-offset-4\">\r\n        <div *ngIf=\"errorMessage\" class=\"alert alert-warning\">{{ errorMessage }}</div>\r\n        <form (submit)=\"onLogin()\" #theForm=\"ngForm\" novalidate>\r\n            <div class=\"form-group\">\r\n                <label for=\"username\">Username</label>\r\n                <input type=\"text\" class=\"form-control\" name=\"username\" [(ngModel)]=\"creds.username\" #username=\"ngModel\" required />\r\n                <div class=\"text-danger\" *ngIf=\"username.touched && username.invalid && username.errors.required\">Username is required!</div>\r\n            </div>\r\n\r\n            <div class=\"form-group\">\r\n                <label for=\"password\">Password</label>\r\n                <input type=\"password\" class=\"form-control\" name=\"password\" [(ngModel)]=\"creds.password\" #password=\"ngModel\" required/>\r\n                <div class=\"text-danger\" *ngIf=\"password.touched && password.invalid && password.errors.required\">Password is required!</div>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"submit\" class=\"btn btn-success\" value=\"Login\" [disabled]=\"theForm.invalid\" />\r\n                <a href=\"#\" class=\"btn btn-default\">Cancel</a>\r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>"
+module.exports = "<div class=\"row\">\r\n    <div class=\"col-md-4 col-md-offset-4\">\r\n        <div *ngIf=\"errorMessage\" class=\"alert alert-warning\">{{ errorMessage }}</div>\r\n        <form (submit)=\"onLogin()\" #theForm=\"ngForm\" novalidate>\r\n            <div class=\"form-group\">\r\n                <label for=\"username\">Username</label>\r\n                <input type=\"text\" class=\"form-control\" name=\"username\" [(ngModel)]=\"creds.username\" #username=\"ngModel\" required />\r\n                <div class=\"text-danger\" *ngIf=\"username.touched && username.invalid && username.errors.required\">Username is required!</div>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label for=\"password\">Password</label>\r\n                <input type=\"password\" class=\"form-control\" name=\"password\" [(ngModel)]=\"creds.password\" #password=\"ngModel\" required />\r\n                <div class=\"text-danger\" *ngIf=\"password.touched && password.invalid && password.errors.required\">Password is required!</div>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"submit\" class=\"btn btn-success\" value=\"Login\" [disabled]=\"theForm.invalid\" />\r\n                <a href=\"#\" class=\"btn btn-default\">Cancel</a>\r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>"
 
 /***/ }),
 
@@ -379,7 +380,7 @@ exports.OrderItem = OrderItem;
 /***/ "./Frontend/app/shop/product/productList.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ".product-info img {\r\n    width: 150px;\r\n    height:  150px;\r\n    float: left;\r\n    margin: 0 2px;\r\n    border: solid 1px black;\r\n}\r\n"
+module.exports = ".product-info img {\r\n    border: solid 1px black;\r\n    float: left;\r\n    height: 150px;\r\n    margin: 0 2px;\r\n    width: 150px;\r\n}"
 
 /***/ }),
 
@@ -563,11 +564,11 @@ exports.ShopService = ShopService;
 
 "use strict";
 
+Object.defineProperty(exports, "__esModule", { value: true });
 // The file contents for the current environment will overwrite these during build.
 // The build system defaults to the dev environment which uses `environment.ts`, but if you do
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.environment = {
     production: false
 };
@@ -588,7 +589,8 @@ var environment_1 = __webpack_require__("./Frontend/environments/environment.ts"
 if (environment_1.environment.production) {
     core_1.enableProdMode();
 }
-platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(app_module_1.AppModule)
+platform_browser_dynamic_1.platformBrowserDynamic()
+    .bootstrapModule(app_module_1.AppModule)
     .catch(function (err) { return console.log(err); });
 
 

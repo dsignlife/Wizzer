@@ -5,6 +5,7 @@ webpackJsonp(["polyfills"],{
 
 "use strict";
 
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * This file includes polyfills needed by Angular and is loaded before the app.
  * You can add your own extra polyfills to this file.
@@ -20,7 +21,6 @@ webpackJsonp(["polyfills"],{
  *
  * Learn more in https://angular.io/docs/ts/latest/guide/browser-support.html
  */
-Object.defineProperty(exports, "__esModule", { value: true });
 /***************************************************************************************************
  * BROWSER POLYFILLS
  */
@@ -69,7 +69,7 @@ __webpack_require__("./node_modules/core-js/es7/reflect.js");
 __webpack_require__("./node_modules/zone.js/dist/zone.js"); // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
- */
+ */ 
 
 
 /***/ }),
