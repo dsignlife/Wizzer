@@ -12,8 +12,10 @@
                 <li><a routerLink="checkout">Checkout</a></li>
                 <li><a routerLink="shop">Shop</a></li>
 
-                <li ng-if="!user.identity.isAuthenticated"><a routerLink="login">Login</a></li>
-                <li ng-if="user.identity.isAuthenticated"><a routerLink="login">Logout</a></li>
+
+                <li ng-show="loggedIn"><a routerLink="login">Login</a></li>
+                <li ng-show="!loggedIn"><a routerLink="login">Logout</a></li>
+
 
             </ul>
         </div>

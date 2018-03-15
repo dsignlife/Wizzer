@@ -1,6 +1,5 @@
-﻿import { Component, Injectable} from "@angular/core";
+﻿import { Component, Injectable } from "@angular/core";
 
-import { LoginService } from "../../login/loginService";
 import { ShopService } from "../shopService";
 import { Router } from "@angular/router";
 
@@ -11,18 +10,20 @@ import { Router } from "@angular/router";
     styleUrls: []
 })
 @Injectable()
-export class Cart
-{
-    constructor(public login: LoginService, private router : Router, public data : ShopService) {
-        
+export class Cart {
+
+    constructor(private router: Router, public data: ShopService) {
+
     }
 
     public onCheckout() {
-        if (this.login.loginRequired) {
-            this.router.navigate(["login"]);
-        } else {
-            this.router.navigate(["checkout"]);
-
+        if (this.data.loginService.isLoggedIn()) {
+            this.router.navigate(["shop/checkout"]);
         }
+
+        else {
+            this.router.navigate(["login"]);
+        }
+
     }
 }

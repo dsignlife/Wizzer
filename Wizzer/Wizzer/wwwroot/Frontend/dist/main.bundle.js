@@ -20,7 +20,7 @@ webpackEmptyAsyncContext.id = "./Frontend/$$_lazy_route_resource lazy recursive"
 /***/ "./Frontend/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--<nav class=\"navbar navbar-dark bg-inverse\">\r\n    <div class=\"container\">\r\n        <a class=\"navbar-brand navbar-left\">Angular Router</a>\r\n        <ul class=\"navbar-left\" routerLinkActive=\"active\">\r\n            <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"\">Home</a></li>\r\n            <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"shop\">Shop</a></li>\r\n            <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"login\">Login</a></li>\r\n            <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"checkout\">Checkout</a></li>\r\n            <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"contact\">Contact</a></li>\r\n        </ul>\r\n    </div>\r\n</nav>-->\r\n<topnavbar></topnavbar>\r\n<router-outlet></router-outlet>"
+module.exports = "<topnavbar></topnavbar>\r\n\r\n<router-outlet></router-outlet>"
 
 /***/ }),
 
@@ -60,6 +60,7 @@ exports.AppComponent = AppComponent;
 
 "use strict";
 
+/// <reference path="../../wwwroot/lib/jquery/dist/jquery.d.ts" />
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -147,6 +148,8 @@ var Home = /** @class */ (function () {
     function Home() {
         this.title = 'Home';
     }
+    Home.prototype.ngOnInit = function () {
+    };
     Home = __decorate([
         core_1.Component({
             selector: "home-page",
@@ -241,6 +244,7 @@ var LoginService = /** @class */ (function () {
     function LoginService(http) {
         this.http = http;
         this.token = "";
+        this.loggedIn = false;
     }
     Object.defineProperty(LoginService.prototype, "loginRequired", {
         get: function () {
@@ -249,6 +253,10 @@ var LoginService = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    LoginService.prototype.isLoggedIn = function () {
+        this.loggedIn = this.token.length > 0;
+        return this.loggedIn;
+    };
     LoginService.prototype.login = function (creds) {
         var _this = this;
         return this.http.post("/account/initializetoken", creds)
@@ -293,21 +301,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-var loginService_1 = __webpack_require__("./Frontend/app/login/loginService.ts");
 var shopService_1 = __webpack_require__("./Frontend/app/shop/shopService.ts");
 var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
 var Cart = /** @class */ (function () {
-    function Cart(login, router, data) {
-        this.login = login;
+    function Cart(router, data) {
         this.router = router;
         this.data = data;
     }
     Cart.prototype.onCheckout = function () {
-        if (this.login.loginRequired) {
-            this.router.navigate(["login"]);
+        if (this.data.loginService.isLoggedIn()) {
+            this.router.navigate(["shop/checkout"]);
         }
         else {
-            this.router.navigate(["checkout"]);
+            this.router.navigate(["login"]);
         }
     };
     Cart = __decorate([
@@ -317,7 +323,7 @@ var Cart = /** @class */ (function () {
             styleUrls: []
         }),
         core_1.Injectable(),
-        __metadata("design:paramtypes", [loginService_1.LoginService, router_1.Router, shopService_1.ShopService])
+        __metadata("design:paramtypes", [router_1.Router, shopService_1.ShopService])
     ], Cart);
     return Cart;
 }());
@@ -358,6 +364,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var shopService_1 = __webpack_require__("./Frontend/app/shop/shopService.ts");
 var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+var http_1 = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
+var order_1 = __webpack_require__("./Frontend/app/shop/order/order.ts");
 var Checkout = /** @class */ (function () {
     function Checkout(data, router) {
         this.data = data;
@@ -365,12 +373,26 @@ var Checkout = /** @class */ (function () {
     }
     Checkout.prototype.onCheckout = function () {
         var _this = this;
-        this.data.checkout()
+        this.checkout()
             .subscribe(function (success) {
             if (success) {
                 _this.router.navigate(["/"]);
             }
         }, function (err) { return _this.errorMessage = "Failed to save order"; });
+    };
+    Checkout.prototype.checkout = function () {
+        var _this = this;
+        if (!this.data.order.orderNumber) {
+            this.data.order.orderNumber = this.data.order.orderDate.getFullYear().toString() + this.data.order.orderDate.getTime().toString();
+        }
+        return this.data.http.post("/api/orders", this.data.order, {
+            headers: new http_1.Headers({ "Authorization": "Bearer " + this.data.loginService.token })
+        })
+            .map(function (response) {
+            var a = response.json();
+            _this.data.order = new order_1.Order();
+            return true;
+        });
     };
     Checkout = __decorate([
         core_1.Component({
@@ -577,20 +599,6 @@ var ShopService = /** @class */ (function () {
         return this.http.get("/api/products")
             .map(function (result) { return _this.products = result.json(); });
     };
-    ShopService.prototype.checkout = function () {
-        var _this = this;
-        if (!this.order.orderNumber) {
-            this.order.orderNumber = this.order.orderDate.getFullYear().toString() + this.order.orderDate.getTime().toString();
-        }
-        return this.http.post("/api/orders", this.order, {
-            headers: new http_1.Headers({ "Authorization": "Bearer " + this.loginService.token })
-        })
-            .map(function (response) {
-            var a = response.json();
-            _this.order = new order_1.Order();
-            return true;
-        });
-    };
     ShopService = __decorate([
         core_1.Injectable(),
         __metadata("design:paramtypes", [http_1.Http, loginService_1.LoginService])
@@ -605,7 +613,7 @@ exports.ShopService = ShopService;
 /***/ "./Frontend/app/topnavbar/topnavbar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"navbar navbar-default\">\r\n    <header class=\"container\">\r\n        <div class=\"navbar-header\">\r\n            <div class=\"navbar-brand\"><i class=\"fa fa-shopping-bag\"></i> Wizzer Project</div>\r\n            <button class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#menu\">&#9776;</button>\r\n        </div>\r\n\r\n        <div id=\"menu\" class=\"collapse navbar-collapse\">\r\n            <ul class=\"nav navbar-nav\">\r\n                <li><a routerLink=\"\">Home</a></li>\r\n                <li><a routerLink=\"contact\">Contact</a></li>\r\n                <li><a routerLink=\"checkout\">Checkout</a></li>\r\n                <li><a routerLink=\"shop\">Shop</a></li>\r\n\r\n                <li ng-if=\"!user.identity.isAuthenticated\"><a routerLink=\"login\">Login</a></li>\r\n                <li ng-if=\"user.identity.isAuthenticated\"><a routerLink=\"login\">Logout</a></li>\r\n\r\n            </ul>\r\n        </div>\r\n    </header>\r\n</div>\r\n"
+module.exports = "<div class=\"navbar navbar-default\">\r\n    <header class=\"container\">\r\n        <div class=\"navbar-header\">\r\n            <div class=\"navbar-brand\"><i class=\"fa fa-shopping-bag\"></i> Wizzer Project</div>\r\n            <button class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#menu\">&#9776;</button>\r\n        </div>\r\n\r\n        <div id=\"menu\" class=\"collapse navbar-collapse\">\r\n            <ul class=\"nav navbar-nav\">\r\n                <li><a routerLink=\"\">Home</a></li>\r\n                <li><a routerLink=\"contact\">Contact</a></li>\r\n                <li><a routerLink=\"checkout\">Checkout</a></li>\r\n                <li><a routerLink=\"shop\">Shop</a></li>\r\n\r\n\r\n                <li ng-show=\"loggedIn\"><a routerLink=\"login\">Login</a></li>\r\n                <li ng-show=\"!loggedIn\"><a routerLink=\"login\">Logout</a></li>\r\n\r\n\r\n            </ul>\r\n        </div>\r\n    </header>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -626,16 +634,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+var loginService_1 = __webpack_require__("./Frontend/app/login/loginService.ts");
 var Topnavbar = /** @class */ (function () {
-    function Topnavbar(router) {
+    function Topnavbar(router, login) {
         this.router = router;
+        this.login = login;
+        this.loggedIn = this.login.loggedIn;
     }
     Topnavbar = __decorate([
         core_1.Component({
             selector: "topnavbar",
             template: __webpack_require__("./Frontend/app/topnavbar/topnavbar.component.html")
         }),
-        __metadata("design:paramtypes", [router_1.Router])
+        __metadata("design:paramtypes", [router_1.Router, loginService_1.LoginService])
     ], Topnavbar);
     return Topnavbar;
 }());

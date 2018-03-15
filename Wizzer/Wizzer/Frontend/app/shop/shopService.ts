@@ -15,7 +15,7 @@ export class ShopService {
     public order: Order = new Order();
     public products: Product[] = [];
 
-    constructor(private http: Http, public loginService: LoginService) {
+    constructor(public http: Http, public loginService: LoginService) {
 
     }
 
@@ -49,19 +49,4 @@ export class ShopService {
             .map((result: Response) => this.products = result.json());
     }
 
-    public checkout() {
-
-        if (!this.order.orderNumber) {
-            this.order.orderNumber = this.order.orderDate.getFullYear().toString() + this.order.orderDate.getTime().toString();
-        }
-
-        return this.http.post("/api/orders", this.order, {
-            headers: new Headers({ "Authorization": "Bearer " + this.loginService.token })
-        })
-            .map(response => {
-                var a = response.json();
-                this.order = new Order();
-                return true;
-            });
-    }
 }

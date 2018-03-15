@@ -1,9 +1,15 @@
+/// <reference path="../../wwwroot/lib/jquery/dist/jquery.d.ts" />
+
 //Modules
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { HttpModule } from "@angular/http";
 import { RouterModule } from "@angular/router";
 import { FormsModule } from "@angular/forms";
+
+
+import * as $ from "jquery";
+
 //Components
 import { AppComponent } from "./app.component";
 import { Topnavbar } from "./topnavbar/topnavbar.component";
@@ -35,8 +41,11 @@ NgModule({
         Shop,
         Checkout,
         Login
+        
+
     ],
     imports: [
+        
         BrowserModule,
         FormsModule,
         HttpModule,
