@@ -1,5 +1,5 @@
-﻿import { Component, OnInit } from "@angular/core";
-import { ProductService as productService } from "./productService";
+﻿import { Component, Injectable, OnInit } from "@angular/core";
+import { ShopService } from '../shopService';
 import { Product } from "./product";
 
 @Component({
@@ -8,11 +8,12 @@ import { Product } from "./product";
     styleUrls: ["productList.component.css"]
 })
 
+@Injectable()
 export class ProductList implements OnInit {
 
     public products: Product[];
 
-    constructor(private data: productService) {
+    constructor(private data: ShopService) {
         this.products = data.products;
     }
 
@@ -25,8 +26,8 @@ export class ProductList implements OnInit {
             });
     }
 
-    //public addProduct(product: Product) {
-    //    this.data.addToOrder(product);
-    //}
+    public addProduct(product: Product) {
+        this.data.addToOrder(product);
+    }
 
 }

@@ -71,11 +71,14 @@ var platform_browser_1 = __webpack_require__("./node_modules/@angular/platform-b
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var http_1 = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
 var app_component_1 = __webpack_require__("./Frontend/app/app.component.ts");
+//Pages
 var productList_component_1 = __webpack_require__("./Frontend/app/shop/product/productList.component.ts");
+var login_component_1 = __webpack_require__("./Frontend/app/login/login.component.ts");
 var cart_component_1 = __webpack_require__("./Frontend/app/shop/cart/cart.component.ts");
 var shop_component_1 = __webpack_require__("./Frontend/app/shop/shop.component.ts");
 var checkout_component_1 = __webpack_require__("./Frontend/app/checkout/checkout.component.ts");
-var login_component_1 = __webpack_require__("./Frontend/app/login/login.component.ts");
+//DataServices
+var loginService_1 = __webpack_require__("./Frontend/app/login/loginService.ts");
 var shopService_1 = __webpack_require__("./Frontend/app/shop/shopService.ts");
 var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
 var forms_1 = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
@@ -103,7 +106,7 @@ var AppModule = /** @class */ (function () {
                 http_1.HttpModule,
                 router_1.RouterModule.forRoot(routes, { useHash: true, enableTracing: false })
             ],
-            providers: [shopService_1.ShopService],
+            providers: [shopService_1.ShopService, loginService_1.LoginService],
             bootstrap: [app_component_1.AppComponent]
         })
     ], AppModule);
@@ -144,16 +147,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-var checkoutService_1 = __webpack_require__("./Frontend/app/checkout/checkoutService.ts");
+var shopService_1 = __webpack_require__("./Frontend/app/shop/shopService.ts");
 var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
 var Checkout = /** @class */ (function () {
-    function Checkout(checkoutService, router) {
-        this.checkoutService = checkoutService;
+    function Checkout(data, router) {
+        this.data = data;
         this.router = router;
     }
     Checkout.prototype.onCheckout = function () {
         var _this = this;
-        this.checkoutService.checkout()
+        this.data.checkout()
             .subscribe(function (success) {
             if (success) {
                 _this.router.navigate(["/"]);
@@ -166,61 +169,11 @@ var Checkout = /** @class */ (function () {
             template: __webpack_require__("./Frontend/app/checkout/checkout.component.html"),
             styles: [__webpack_require__("./Frontend/app/checkout/checkout.component.css")]
         }),
-        __metadata("design:paramtypes", [checkoutService_1.CheckoutService, router_1.Router])
+        __metadata("design:paramtypes", [shopService_1.ShopService, router_1.Router])
     ], Checkout);
     return Checkout;
 }());
 exports.Checkout = Checkout;
-
-
-/***/ }),
-
-/***/ "./Frontend/app/checkout/checkoutService.ts":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-var http_1 = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
-var order_1 = __webpack_require__("./Frontend/app/shop/order/order.ts");
-var shopService_1 = __webpack_require__("./Frontend/app/shop/shopService.ts");
-var loginService_1 = __webpack_require__("./Frontend/app/login/loginService.ts");
-var CheckoutService = /** @class */ (function () {
-    function CheckoutService(http, shopService, loginService) {
-        this.http = http;
-        this.shopService = shopService;
-        this.loginService = loginService;
-    }
-    CheckoutService.prototype.checkout = function () {
-        var _this = this;
-        if (!this.shopService.order.orderNumber) {
-            this.shopService.order.orderNumber = this.shopService.order.orderDate.getFullYear().toString() + this.shopService.order.orderDate.getTime().toString();
-        }
-        return this.http.post("/api/orders", this.shopService.order, {
-            headers: new http_1.Headers({ "Authorization": "Bearer " + this.loginService.token })
-        })
-            .map(function (response) {
-            _this.shopService.order = new order_1.Order();
-            return true;
-        });
-    };
-    CheckoutService = __decorate([
-        core_1.Injectable(),
-        __metadata("design:paramtypes", [http_1.Http, shopService_1.ShopService, loginService_1.LoginService])
-    ], CheckoutService);
-    return CheckoutService;
-}());
-exports.CheckoutService = CheckoutService;
 
 
 /***/ }),
@@ -358,14 +311,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var loginService_1 = __webpack_require__("./Frontend/app/login/loginService.ts");
+var shopService_1 = __webpack_require__("./Frontend/app/shop/shopService.ts");
 var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
 var Cart = /** @class */ (function () {
-    function Cart(data, router) {
-        this.data = data;
+    function Cart(login, router, data) {
+        this.login = login;
         this.router = router;
+        this.data = data;
     }
     Cart.prototype.onCheckout = function () {
-        if (this.data.loginRequired) {
+        if (this.login.loginRequired) {
             this.router.navigate(["login"]);
         }
         else {
@@ -378,7 +333,8 @@ var Cart = /** @class */ (function () {
             template: __webpack_require__("./Frontend/app/shop/cart/cart.component.html"),
             styleUrls: []
         }),
-        __metadata("design:paramtypes", [loginService_1.LoginService, router_1.Router])
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [loginService_1.LoginService, router_1.Router, shopService_1.ShopService])
     ], Cart);
     return Cart;
 }());
@@ -450,7 +406,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-var productService_1 = __webpack_require__("./Frontend/app/shop/product/productService.ts");
+var shopService_1 = __webpack_require__("./Frontend/app/shop/shopService.ts");
 var ProductList = /** @class */ (function () {
     function ProductList(data) {
         this.data = data;
@@ -465,56 +421,21 @@ var ProductList = /** @class */ (function () {
             }
         });
     };
+    ProductList.prototype.addProduct = function (product) {
+        this.data.addToOrder(product);
+    };
     ProductList = __decorate([
         core_1.Component({
             selector: "product-list",
             template: __webpack_require__("./Frontend/app/shop/product/productList.component.html"),
             styles: [__webpack_require__("./Frontend/app/shop/product/productList.component.css")]
         }),
-        __metadata("design:paramtypes", [productService_1.ProductService])
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [shopService_1.ShopService])
     ], ProductList);
     return ProductList;
 }());
 exports.ProductList = ProductList;
-
-
-/***/ }),
-
-/***/ "./Frontend/app/shop/product/productService.ts":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-var http_1 = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
-__webpack_require__("./node_modules/rxjs/_esm5/add/operator/map.js");
-var ProductService = /** @class */ (function () {
-    function ProductService(http) {
-        this.http = http;
-        this.products = [];
-    }
-    ProductService.prototype.loadProducts = function () {
-        var _this = this;
-        return this.http.get("/api/products")
-            .map(function (result) { return _this.products = result.json(); });
-    };
-    ProductService = __decorate([
-        core_1.Injectable(),
-        __metadata("design:paramtypes", [http_1.Http])
-    ], ProductService);
-    return ProductService;
-}());
-exports.ProductService = ProductService;
 
 
 /***/ }),
@@ -575,11 +496,13 @@ var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var order_1 = __webpack_require__("./Frontend/app/shop/order/order.ts");
 var loginService_1 = __webpack_require__("./Frontend/app/login/loginService.ts");
 var http_1 = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
+__webpack_require__("./node_modules/rxjs/_esm5/add/operator/map.js");
 var ShopService = /** @class */ (function () {
     function ShopService(http, loginService) {
         this.http = http;
         this.loginService = loginService;
         this.order = new order_1.Order();
+        this.products = [];
     }
     Object.defineProperty(ShopService.prototype, "loginRequired", {
         get: function () {
@@ -604,6 +527,25 @@ var ShopService = /** @class */ (function () {
             item.quantity = 1;
             this.order.items.push(item);
         }
+    };
+    ShopService.prototype.loadProducts = function () {
+        var _this = this;
+        return this.http.get("/api/products")
+            .map(function (result) { return _this.products = result.json(); });
+    };
+    ShopService.prototype.checkout = function () {
+        var _this = this;
+        if (!this.order.orderNumber) {
+            this.order.orderNumber = this.order.orderDate.getFullYear().toString() + this.order.orderDate.getTime().toString();
+        }
+        return this.http.post("/api/orders", this.order, {
+            headers: new http_1.Headers({ "Authorization": "Bearer " + this.loginService.token })
+        })
+            .map(function (response) {
+            var a = response.json();
+            _this.order = new order_1.Order();
+            return true;
+        });
     };
     ShopService = __decorate([
         core_1.Injectable(),

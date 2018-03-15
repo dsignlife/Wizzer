@@ -1,23 +1,21 @@
+//Modules
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
+import { RouterModule } from "@angular/router";
+import { FormsModule } from '@angular/forms';
 
+//Components
 import { AppComponent } from './app.component';
-
 import { ProductList } from './shop/product/productList.component';
+import { Login } from './login/login.component';
 import { Cart } from './shop/cart/cart.component';
 import { Shop } from './shop/shop.component';
-
 import { Checkout } from "./checkout/checkout.component";
-import { Login } from './login/login.component';
 
+//DataServices
+import { LoginService } from "./login/loginService";
 import { ShopService } from './shop/shopService';
-
-
-
-import { RouterModule } from "@angular/router";
-
-import { FormsModule } from '@angular/forms';
 
 let routes = [
     { path: "", component: Shop },
@@ -30,7 +28,6 @@ let routes = [
     NgModule({
         declarations: [
             AppComponent,
-
             ProductList,
             Cart,
             Shop,
@@ -45,7 +42,7 @@ let routes = [
             RouterModule.forRoot(routes, { useHash: true, enableTracing: false })
 
         ],
-    providers: [ShopService],
+    providers: [ShopService, LoginService ],
         bootstrap: [AppComponent]
     })
 
