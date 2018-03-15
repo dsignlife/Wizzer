@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var productService_1 = require("./productService");
+var shopService_1 = require("../shopService");
 var ProductList = /** @class */ (function () {
     function ProductList(data) {
         this.data = data;
@@ -25,13 +25,17 @@ var ProductList = /** @class */ (function () {
             }
         });
     };
+    ProductList.prototype.addProduct = function (product) {
+        this.data.addToOrder(product);
+    };
     ProductList = __decorate([
         core_1.Component({
             selector: "product-list",
             templateUrl: "productList.component.html",
             styleUrls: ["productList.component.css"]
         }),
-        __metadata("design:paramtypes", [productService_1.ProductService])
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [shopService_1.ShopService])
     ], ProductList);
     return ProductList;
 }());

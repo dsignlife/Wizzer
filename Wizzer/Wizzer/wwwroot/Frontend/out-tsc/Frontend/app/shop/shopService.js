@@ -13,28 +13,23 @@ var core_1 = require("@angular/core");
 var order_1 = require("./order/order");
 var loginService_1 = require("../.../../login/loginService");
 var http_1 = require("@angular/http");
+require("rxjs/add/operator/map");
 var ShopService = /** @class */ (function () {
     function ShopService(http, loginService) {
         this.http = http;
         this.loginService = loginService;
         this.order = new order_1.Order();
+        this.products = [];
     }
     Object.defineProperty(ShopService.prototype, "loginRequired", {
         get: function () {
-            return this.loginService.token.length == 0 || this.loginService.tokenExpiration > new Date();
+            return this.loginService.loginRequired;
         },
         enumerable: true,
         configurable: true
     });
     ShopService.prototype.login = function (creds) {
-        var _this = this;
-        return this.http.post("/account/initializetoken", creds)
-            .map(function (response) {
-            var tokenInformation = response.json();
-            _this.loginService.token = tokenInformation.token;
-            _this.loginService.tokenExpiration = tokenInformation.expiration;
-            return true;
-        });
+        return this.loginService.login(creds);
     };
     ShopService.prototype.addToOrder = function (product) {
         var item = this.order.items.find(function (i) { return i.productId === product.id; });
@@ -49,6 +44,11 @@ var ShopService = /** @class */ (function () {
             item.quantity = 1;
             this.order.items.push(item);
         }
+    };
+    ShopService.prototype.loadProducts = function () {
+        var _this = this;
+        return this.http.get("/api/products")
+            .map(function (result) { return _this.products = result.json(); });
     };
     ShopService.prototype.checkout = function () {
         var _this = this;

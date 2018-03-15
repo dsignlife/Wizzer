@@ -1,5 +1,5 @@
 {
-  "compileOnSave": false,
+  "compileOnSave": true,
   "include": ["./Frontend","./wwwroot/ts"],
   "compilerOptions": {
     "outDir": "./wwwroot/frontend/out-tsc",

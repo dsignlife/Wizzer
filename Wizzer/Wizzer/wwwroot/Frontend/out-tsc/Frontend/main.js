@@ -7,6 +7,7 @@ var environment_1 = require("./environments/environment");
 if (environment_1.environment.production) {
     core_1.enableProdMode();
 }
-platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(app_module_1.AppModule)
+platform_browser_dynamic_1.platformBrowserDynamic()
+    .bootstrapModule(app_module_1.AppModule)
     .catch(function (err) { return console.log(err); });
 //# sourceMappingURL=main.js.map

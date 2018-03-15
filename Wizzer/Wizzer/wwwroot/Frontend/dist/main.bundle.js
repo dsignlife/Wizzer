@@ -20,7 +20,7 @@ webpackEmptyAsyncContext.id = "./Frontend/$$_lazy_route_resource lazy recursive"
 /***/ "./Frontend/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<router-outlet></router-outlet>"
+module.exports = "<nav class=\"navbar navbar-dark bg-inverse\">\r\n    <div class=\"container\">\r\n        <a class=\"navbar-brand navbar-left\">Angular Router</a>\r\n        <ul class=\"navbar-left\" routerLinkActive=\"active\">\r\n            <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"\">Home</a></li>\r\n            <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"shop\">Shop</a></li>\r\n            <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"contact\">Contact</a></li>\r\n        </ul>\r\n    </div>\r\n</nav>\r\n\r\n\r\n<router-outlet></router-outlet>"
 
 /***/ }),
 
@@ -43,7 +43,7 @@ var AppComponent = /** @class */ (function () {
     }
     AppComponent = __decorate([
         core_1.Component({
-            selector: 'the-shop',
+            selector: "app-root",
             template: __webpack_require__("./Frontend/app/app.component.html"),
             styles: []
         })
@@ -75,6 +75,7 @@ var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.j
 var forms_1 = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
 //Components
 var app_component_1 = __webpack_require__("./Frontend/app/app.component.ts");
+var home_component_1 = __webpack_require__("./Frontend/app/home/home.component.ts");
 var login_component_1 = __webpack_require__("./Frontend/app/login/login.component.ts");
 var productList_component_1 = __webpack_require__("./Frontend/app/shop/product/productList.component.ts");
 var cart_component_1 = __webpack_require__("./Frontend/app/shop/cart/cart.component.ts");
@@ -84,7 +85,8 @@ var checkout_component_1 = __webpack_require__("./Frontend/app/checkout/checkout
 var loginService_1 = __webpack_require__("./Frontend/app/login/loginService.ts");
 var shopService_1 = __webpack_require__("./Frontend/app/shop/shopService.ts");
 var routes = [
-    { path: "", component: shop_component_1.Shop },
+    { path: "", component: home_component_1.Home },
+    { path: "shop", component: shop_component_1.Shop },
     { path: "checkout", component: checkout_component_1.Checkout },
     { path: "login", component: login_component_1.Login }
 ];
@@ -95,6 +97,7 @@ var AppModule = /** @class */ (function () {
         core_1.NgModule({
             declarations: [
                 app_component_1.AppComponent,
+                home_component_1.Home,
                 productList_component_1.ProductList,
                 cart_component_1.Cart,
                 shop_component_1.Shop,
@@ -175,6 +178,44 @@ var Checkout = /** @class */ (function () {
     return Checkout;
 }());
 exports.Checkout = Checkout;
+
+
+/***/ }),
+
+/***/ "./Frontend/app/home/home.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row\">\r\n    <div class=\"col-md-12\">\r\n        <h2>TEST FROM ANGULAR</h2>\r\n    </div>\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "./Frontend/app/home/home.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var Home = /** @class */ (function () {
+    function Home() {
+        this.title = 'Home';
+    }
+    Home = __decorate([
+        core_1.Component({
+            selector: "home-page",
+            template: __webpack_require__("./Frontend/app/home/home.component.html"),
+            styleUrls: []
+        })
+    ], Home);
+    return Home;
+}());
+exports.Home = Home;
 
 
 /***/ }),

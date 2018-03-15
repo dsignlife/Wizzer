@@ -9,12 +9,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var Home = /** @class */ (function () {
     function Home() {
+        this.title = 'Home';
     }
     Home = __decorate([
         core_1.Component({
-            selector: "home",
+            selector: "home-page",
             templateUrl: "home.component.html",
-            styleUrls: ["home.component.css"]
+            styleUrls: []
         })
     ], Home);
     return Home;

@@ -1,1 +1,13 @@
-﻿<router-outlet></router-outlet>
+﻿<nav class="navbar navbar-dark bg-inverse">
+    <div class="container">
+        <a class="navbar-brand navbar-left">Angular Router</a>
+        <ul class="navbar-left" routerLinkActive="active">
+            <li class="nav-item"><a class="nav-link" routerLink="">Home</a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="shop">Shop</a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="contact">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+
+<router-outlet></router-outlet>

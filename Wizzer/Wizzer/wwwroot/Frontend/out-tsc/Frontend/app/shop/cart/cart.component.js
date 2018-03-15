@@ -11,14 +11,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var loginService_1 = require("../../login/loginService");
+var shopService_1 = require("../shopService");
 var router_1 = require("@angular/router");
 var Cart = /** @class */ (function () {
-    function Cart(data, router) {
-        this.data = data;
+    function Cart(login, router, data) {
+        this.login = login;
         this.router = router;
+        this.data = data;
     }
     Cart.prototype.onCheckout = function () {
-        if (this.data.loginRequired) {
+        if (this.login.loginRequired) {
             this.router.navigate(["login"]);
         }
         else {
@@ -31,7 +33,8 @@ var Cart = /** @class */ (function () {
             templateUrl: "cart.component.html",
             styleUrls: []
         }),
-        __metadata("design:paramtypes", [loginService_1.LoginService, router_1.Router])
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [loginService_1.LoginService, router_1.Router, shopService_1.ShopService])
     ], Cart);
     return Cart;
 }());

@@ -27,7 +27,6 @@ namespace Wizzer.Controllers
         public IActionResult Index()
         {
             ViewBag.Title = "Index Page";
-
             return View();
         }
 
@@ -66,7 +65,6 @@ namespace Wizzer.Controllers
 
         public IActionResult Shop()
         {
-
             return View();
         }
 

@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * This file includes polyfills needed by Angular and is loaded before the app.
  * You can add your own extra polyfills to this file.
@@ -14,7 +15,6 @@
  *
  * Learn more in https://angular.io/docs/ts/latest/guide/browser-support.html
  */
-Object.defineProperty(exports, "__esModule", { value: true });
 /***************************************************************************************************
  * BROWSER POLYFILLS
  */
@@ -63,5 +63,5 @@ require("core-js/es7/reflect");
 require("zone.js/dist/zone"); // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
- */
+ */ 
 //# sourceMappingURL=polyfills.js.map

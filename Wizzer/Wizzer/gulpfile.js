@@ -7,7 +7,7 @@ gulp.task("minify", function () {
     return gulp.src("wwwroot/js/**/*.js")
         .pipe(uglify())
         .pipe(concat("wizzer.min.js"))
-        .pipe(gulp.dest("wwwroot/dist"));
+        .pipe(gulp.dest("wwwroot/Frontend/dist"));
 });
 
 gulp.task('default', ["minify"]);

@@ -90,8 +90,10 @@ namespace Wizzer
 
             app.UseMvc(config =>
             {
-                config.MapRoute("Default", "{controller}/{action}/{id?}", new { controller = "App", Action = "Index" });
+                 config.MapRoute("Default", "{controller}/{action}/{id?}", new { controller = "App", Action = "Index" });
             });
+
+            
 
             if (!env.IsDevelopment())
                 return;
