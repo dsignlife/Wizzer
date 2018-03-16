@@ -78,6 +78,7 @@ var forms_1 = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js")
 var app_component_1 = __webpack_require__("./Frontend/app/app.component.ts");
 var topnavbar_component_1 = __webpack_require__("./Frontend/app/topnavbar/topnavbar.component.ts");
 var home_component_1 = __webpack_require__("./Frontend/app/home/home.component.ts");
+var contact_component_1 = __webpack_require__("./Frontend/app/contact/contact.component.ts");
 var login_component_1 = __webpack_require__("./Frontend/app/login/login.component.ts");
 var productList_component_1 = __webpack_require__("./Frontend/app/shop/product/productList.component.ts");
 var cart_component_1 = __webpack_require__("./Frontend/app/shop/cart/cart.component.ts");
@@ -88,6 +89,7 @@ var loginService_1 = __webpack_require__("./Frontend/app/login/loginService.ts")
 var shopService_1 = __webpack_require__("./Frontend/app/shop/shopService.ts");
 var routes = [
     { path: "", component: home_component_1.Home },
+    { path: "contact", component: contact_component_1.Contact },
     { path: "shop", component: shop_component_1.Shop },
     { path: "shop/checkout", component: checkout_component_1.Checkout },
     { path: "login", component: login_component_1.Login }
@@ -101,6 +103,7 @@ var AppModule = /** @class */ (function () {
                 app_component_1.AppComponent,
                 topnavbar_component_1.Topnavbar,
                 home_component_1.Home,
+                contact_component_1.Contact,
                 productList_component_1.ProductList,
                 cart_component_1.Cart,
                 shop_component_1.Shop,
@@ -120,6 +123,46 @@ var AppModule = /** @class */ (function () {
     return AppModule;
 }());
 exports.AppModule = AppModule;
+
+
+/***/ }),
+
+/***/ "./Frontend/app/contact/contact.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"col-md-6 col-md-offset-3\">\r\n    <div class=\"well\">\r\n\r\n        <form method=\"post\">\r\n            <div asp-validation-summary=\"ModelOnly\"></div>\r\n            <div class=\"form-group\">\r\n                <label>Your Name:</label>\r\n                <input class=\"form-control\" />\r\n            </div>\r\n\r\n            <div class=\"form-group\">\r\n                <label>Email:</label>\r\n                <input type=\"email\" class=\"form-control\" />\r\n            </div>\r\n\r\n            <div class=\"form-group\">\r\n                <label >Subject:</label>\r\n                <input type=\"text\" class=\"form-control\" />\r\n            </div>\r\n\r\n            <div class=\"form-group\">\r\n                <label>Message:</label>\r\n                <textarea rows=\"4\" class=\"form-control\"></textarea>\r\n            </div>\r\n\r\n            <div class=\"form-group\">\r\n                <button type=\"submit\" value=\"Send Message\" class=\"btn btn-primary\"><i class=\"fa fa-envelope\"></i> Send Message</button>\r\n            </div>\r\n            \r\n            <div class=\"text-success\">WHEN DONE</div>\r\n\r\n        </form>\r\n\r\n    </div>\r\n</div>"
+
+/***/ }),
+
+/***/ "./Frontend/app/contact/contact.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var Contact = /** @class */ (function () {
+    function Contact() {
+        this.title = 'Contact';
+    }
+    Contact.prototype.ngOnInit = function () {
+    };
+    Contact = __decorate([
+        core_1.Component({
+            selector: "contact-page",
+            template: __webpack_require__("./Frontend/app/contact/contact.component.html"),
+            styleUrls: []
+        })
+    ], Contact);
+    return Contact;
+}());
+exports.Contact = Contact;
 
 
 /***/ }),
@@ -309,12 +352,10 @@ var Cart = /** @class */ (function () {
         this.data = data;
     }
     Cart.prototype.onCheckout = function () {
-        if (this.data.loginService.isLoggedIn()) {
+        if (this.data.loginService.loggedIn === true)
             this.router.navigate(["shop/checkout"]);
-        }
-        else {
+        else
             this.router.navigate(["login"]);
-        }
     };
     Cart = __decorate([
         core_1.Component({
@@ -613,7 +654,7 @@ exports.ShopService = ShopService;
 /***/ "./Frontend/app/topnavbar/topnavbar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"navbar navbar-default\">\r\n    <header class=\"container\">\r\n        <div class=\"navbar-header\">\r\n            <div class=\"navbar-brand\"><i class=\"fa fa-shopping-bag\"></i> Wizzer Project</div>\r\n            <button class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#menu\">&#9776;</button>\r\n        </div>\r\n\r\n        <div id=\"menu\" class=\"collapse navbar-collapse\">\r\n            <ul class=\"nav navbar-nav\">\r\n                <li><a routerLink=\"\">Home</a></li>\r\n                <li><a routerLink=\"contact\">Contact</a></li>\r\n                <li><a routerLink=\"checkout\">Checkout</a></li>\r\n                <li><a routerLink=\"shop\">Shop</a></li>\r\n\r\n\r\n                <li ng-show=\"loggedIn\"><a routerLink=\"login\">Login</a></li>\r\n                <li ng-show=\"!loggedIn\"><a routerLink=\"login\">Logout</a></li>\r\n\r\n\r\n            </ul>\r\n        </div>\r\n    </header>\r\n</div>\r\n"
+module.exports = "<div class=\"navbar navbar-default\">\r\n    <header class=\"container\">\r\n        <div class=\"navbar-header\">\r\n            <div class=\"navbar-brand\"><i class=\"fa fa-shopping-bag\"></i> Wizzer Project</div>\r\n            <button class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#menu\">&#9776;</button>\r\n        </div>\r\n\r\n        <div id=\"menu\" class=\"collapse navbar-collapse\">\r\n            <ul class=\"nav navbar-nav\" ng-model=\"login.loggedIn\">\r\n                <li><a routerLink=\"\">Home</a></li>\r\n                <li><a routerLink=\"contact\">Contact</a></li>\r\n                <li><a routerLink=\"checkout\">Checkout</a></li>\r\n                <li><a routerLink=\"shop\">Shop</a></li>\r\n\r\n\r\n                <li ng-show=\"login.loggedIn\"><a routerLink=\"login\">Login</a></li>\r\n                <li ng-show=\"!login.loggedIn\"><a routerLink=\"login\">Logout</a></li>\r\n\r\n\r\n            </ul>\r\n        </div>\r\n    </header>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -639,7 +680,6 @@ var Topnavbar = /** @class */ (function () {
     function Topnavbar(router, login) {
         this.router = router;
         this.login = login;
-        this.loggedIn = this.login.loggedIn;
     }
     Topnavbar = __decorate([
         core_1.Component({

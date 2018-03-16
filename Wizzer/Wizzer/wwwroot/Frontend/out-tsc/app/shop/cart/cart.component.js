@@ -18,12 +18,10 @@ var Cart = /** @class */ (function () {
         this.data = data;
     }
     Cart.prototype.onCheckout = function () {
-        if (this.data.loginService.isLoggedIn()) {
+        if (this.data.loginService.loggedIn === true)
             this.router.navigate(["shop/checkout"]);
-        }
-        else {
+        else
             this.router.navigate(["login"]);
-        }
     };
     Cart = __decorate([
         core_1.Component({

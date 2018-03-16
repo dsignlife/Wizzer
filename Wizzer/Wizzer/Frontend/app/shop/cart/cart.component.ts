@@ -17,13 +17,10 @@ export class Cart {
     }
 
     public onCheckout() {
-        if (this.data.loginService.isLoggedIn()) {
+        if (this.data.loginService.loggedIn === true)
             this.router.navigate(["shop/checkout"]);
-        }
-
-        else {
+        else
             this.router.navigate(["login"]);
-        }
 
     }
 }

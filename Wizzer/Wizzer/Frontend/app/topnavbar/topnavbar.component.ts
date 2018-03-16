@@ -1,6 +1,8 @@
 ﻿import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { LoginService } from "../login/loginService";
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from "rxjs"
 
 @Component({
     selector: "topnavbar",
@@ -9,12 +11,8 @@ import { LoginService } from "../login/loginService";
 
 export class Topnavbar {
 
-    public loggedIn : boolean;
 
     constructor(private router: Router, public login: LoginService) {
-        this.loggedIn = this.login.loggedIn;
     }
-
-
 
 }

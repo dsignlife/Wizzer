@@ -1,13 +1,12 @@
 ﻿import { Injectable } from "@angular/core";
 import { Http } from "@angular/http";
-import { Observable } from "rxjs"
 
 @Injectable()
 export class LoginService {
 
     public token = "";
     public tokenExpiration: Date;
-    public loggedIn: boolean = false;
+    public loggedIn = false;
 
 
     constructor(private http: Http) {

@@ -16,7 +16,6 @@ var Topnavbar = /** @class */ (function () {
     function Topnavbar(router, login) {
         this.router = router;
         this.login = login;
-        this.loggedIn = this.login.loggedIn;
     }
     Topnavbar = __decorate([
         core_1.Component({
