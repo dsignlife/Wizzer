@@ -44,7 +44,7 @@ namespace Wizzer.Data.Seeders
                 var result = await _userManager.CreateAsync(user, "EvaOdin10");
                 if (result != IdentityResult.Success)
                 {
-                    throw new InvalidOperationException("Failed to create DefaultLogin");
+                    throw new InvalidOperationException("Failed to create default Login");
                 }
             }
 

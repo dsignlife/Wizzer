@@ -24,10 +24,6 @@
     </Content>
   </ItemGroup>
   
-  <ItemGroup>
-    <Folder Include="wwwroot\ts\" />
-  </ItemGroup>
-  
   <Target Name="PublishingScript" BeforeTargets="BeforePublish">
     <Exec Command="npm install" />
     <Exec Command="bower install" />

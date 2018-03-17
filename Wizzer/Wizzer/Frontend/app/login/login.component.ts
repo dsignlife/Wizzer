@@ -11,15 +11,15 @@ export class Login {
     public creds = { username: "", password: "" }
     public errorMessage: string;
 
-    constructor(private data: ShopService, private router: Router) {
+    constructor(private shopService: ShopService, private router: Router) {
 
     }
 
     public onLogin() {
-        this.data.login(this.creds)
+        this.shopService.login(this.creds)
             .subscribe(done => {
                 if (done) {
-                    if (this.data.order.items.length == 0) {
+                    if (this.shopService.order.items.length == 0) {
                         this.router.navigate([""]);
                     } else {
                         this.router.navigate(["shop/checkout"]);

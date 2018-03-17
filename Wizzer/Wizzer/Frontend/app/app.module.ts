@@ -43,8 +43,7 @@ NgModule({
         Cart,
         Shop,
         Checkout,
-        Login
-        
+        Login    
 
     ],
     imports: [

@@ -15,7 +15,7 @@ export class Checkout {
 
     public errorMessage: string;
 
-    constructor(public data: ShopService, private router: Router) {
+    constructor(public shopService: ShopService, private router: Router) {
                   
     }
 
@@ -30,16 +30,16 @@ export class Checkout {
 
     public checkout() {
 
-        if (!this.data.order.orderNumber) {
-            this.data.order.orderNumber = this.data.order.orderDate.getFullYear().toString() + this.data.order.orderDate.getTime().toString();
+        if (!this.shopService.order.orderNumber) {
+            this.shopService.order.orderNumber = this.shopService.order.orderDate.getFullYear().toString() + this.shopService.order.orderDate.getTime().toString();
         }
 
-        return this.data.http.post("/api/orders", this.data.order, {
-            headers: new Headers({ "Authorization": "Bearer " + this.data.loginService.token })
+        return this.shopService.http.post("/api/orders", this.shopService.order, {
+            headers: new Headers({ "Authorization": "Bearer " + this.shopService.loginService.token })
             })
             .map(response => {
                 var a = response.json();
-                this.data.order = new Order();
+                this.shopService.order = new Order();
                 return true;
             });
     }

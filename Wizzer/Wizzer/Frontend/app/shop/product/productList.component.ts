@@ -13,21 +13,21 @@ export class ProductList implements OnInit {
 
     public products: Product[];
 
-    constructor(private data: ShopService) {
-        this.products = data.products;
+    constructor(private shopService: ShopService) {
+        this.products = shopService.products;
     }
 
     ngOnInit() {
-        this.data.loadProducts()
+        this.shopService.loadProducts()
             .subscribe(success => {
                 if (success) {
-                    this.products = this.data.products;
+                    this.products = this.shopService.products;
                 }
             });
     }
 
     public addProduct(product: Product) {
-        this.data.addToOrder(product);
+        this.shopService.addToOrder(product);
     }
 
 }

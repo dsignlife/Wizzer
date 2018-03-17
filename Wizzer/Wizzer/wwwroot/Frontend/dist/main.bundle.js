@@ -233,17 +233,17 @@ var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var shopService_1 = __webpack_require__("./Frontend/app/shop/shopService.ts");
 var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
 var Login = /** @class */ (function () {
-    function Login(data, router) {
-        this.data = data;
+    function Login(shopService, router) {
+        this.shopService = shopService;
         this.router = router;
         this.creds = { username: "", password: "" };
     }
     Login.prototype.onLogin = function () {
         var _this = this;
-        this.data.login(this.creds)
+        this.shopService.login(this.creds)
             .subscribe(function (done) {
             if (done) {
-                if (_this.data.order.items.length == 0) {
+                if (_this.shopService.order.items.length == 0) {
                     _this.router.navigate([""]);
                 }
                 else {
@@ -408,8 +408,8 @@ var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.j
 var http_1 = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
 var order_1 = __webpack_require__("./Frontend/app/shop/order/order.ts");
 var Checkout = /** @class */ (function () {
-    function Checkout(data, router) {
-        this.data = data;
+    function Checkout(shopService, router) {
+        this.shopService = shopService;
         this.router = router;
     }
     Checkout.prototype.onCheckout = function () {
@@ -423,15 +423,15 @@ var Checkout = /** @class */ (function () {
     };
     Checkout.prototype.checkout = function () {
         var _this = this;
-        if (!this.data.order.orderNumber) {
-            this.data.order.orderNumber = this.data.order.orderDate.getFullYear().toString() + this.data.order.orderDate.getTime().toString();
+        if (!this.shopService.order.orderNumber) {
+            this.shopService.order.orderNumber = this.shopService.order.orderDate.getFullYear().toString() + this.shopService.order.orderDate.getTime().toString();
         }
-        return this.data.http.post("/api/orders", this.data.order, {
-            headers: new http_1.Headers({ "Authorization": "Bearer " + this.data.loginService.token })
+        return this.shopService.http.post("/api/orders", this.shopService.order, {
+            headers: new http_1.Headers({ "Authorization": "Bearer " + this.shopService.loginService.token })
         })
             .map(function (response) {
             var a = response.json();
-            _this.data.order = new order_1.Order();
+            _this.shopService.order = new order_1.Order();
             return true;
         });
     };
@@ -515,21 +515,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var shopService_1 = __webpack_require__("./Frontend/app/shop/shopService.ts");
 var ProductList = /** @class */ (function () {
-    function ProductList(data) {
-        this.data = data;
-        this.products = data.products;
+    function ProductList(shopService) {
+        this.shopService = shopService;
+        this.products = shopService.products;
     }
     ProductList.prototype.ngOnInit = function () {
         var _this = this;
-        this.data.loadProducts()
+        this.shopService.loadProducts()
             .subscribe(function (success) {
             if (success) {
-                _this.products = _this.data.products;
+                _this.products = _this.shopService.products;
             }
         });
     };
     ProductList.prototype.addProduct = function (product) {
-        this.data.addToOrder(product);
+        this.shopService.addToOrder(product);
     };
     ProductList = __decorate([
         core_1.Component({
@@ -680,6 +680,29 @@ var Topnavbar = /** @class */ (function () {
     function Topnavbar(router, login) {
         this.router = router;
         this.login = login;
+        $(document).ready(function () {
+            var x = 0;
+            var s = "";
+            var theForm = $("#theForm");
+            theForm.hide();
+            var button = $("#buyButton");
+            button.on("click", function () {
+                console.log("Buying Item");
+            });
+            var productInfo = $(".product-props li");
+            productInfo.on("click", function () {
+                console.log("clicked one of the items: " + $(this).text());
+            });
+            var $loginToggle = $("#loginToggle");
+            var $popupForm = $(".popup-form");
+            var $cartToggle = $("#cartToggle");
+            $loginToggle.on("click", function () {
+                $popupForm.slideToggle(1000);
+            });
+            $cartToggle.on("click", function () {
+                $popupForm.slideToggle(500);
+            });
+        });
     }
     Topnavbar = __decorate([
         core_1.Component({
