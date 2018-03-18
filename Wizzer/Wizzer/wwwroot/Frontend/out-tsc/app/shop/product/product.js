@@ -6,4 +6,10 @@ var Product = /** @class */ (function () {
     return Product;
 }());
 exports.Product = Product;
+var Category = /** @class */ (function () {
+    function Category() {
+    }
+    return Category;
+}());
+exports.Category = Category;
 //# sourceMappingURL=product.js.map

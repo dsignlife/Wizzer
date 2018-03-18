@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Wizzer.Data.Entities;
 
@@ -24,7 +25,7 @@ namespace Wizzer.Data.Repositories
             try
             {
                 _logger.LogInformation("GetAllProducts called");
-                return _context.Products.OrderBy(t => t.Title)
+                return _context.Products.OrderBy(t => t.Title).Include(c => c.Category)
                     .ToList();
             }
             catch (Exception e)

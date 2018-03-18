@@ -1,4 +1,6 @@
-﻿import * as _ from "lodash";
+﻿/// <reference path="../product/product.ts" />
+import * as _ from "lodash";
+
 
 export class Order {
     orderId: number;
@@ -17,6 +19,6 @@ export class OrderItem {
     quantity: number;
     unitPrice: number;
     productId: number;
-    productCategory: string;
+    productCategoryId: number;
     productTitle: string;
 }

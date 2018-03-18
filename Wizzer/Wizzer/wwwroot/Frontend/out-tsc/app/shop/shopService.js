@@ -39,7 +39,8 @@ var ShopService = /** @class */ (function () {
         else {
             item = new order_1.OrderItem();
             item.productId = product.id;
-            item.productCategory = product.category;
+            item.productCategoryId = product.category.id;
+            item.productTitle = product.title;
             item.unitPrice = product.price;
             item.quantity = 1;
             this.order.items.push(item);
