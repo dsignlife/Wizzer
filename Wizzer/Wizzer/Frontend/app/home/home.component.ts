@@ -3,7 +3,7 @@
 @Component({
     selector: "home-page",
     templateUrl: "home.component.html",
-    styleUrls: []
+    styleUrls: ["home.component.css"]
 })
 
 export class Home implements OnInit {

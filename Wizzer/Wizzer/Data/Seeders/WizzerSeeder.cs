@@ -29,7 +29,6 @@ namespace Wizzer.Data.Seeders
         {
             _context.Database.EnsureCreated();
 
-
             var user = await _userManager.FindByEmailAsync("eva.odin@wizzer.se");
             if (user == null)
             {
@@ -48,30 +47,47 @@ namespace Wizzer.Data.Seeders
                 }
             }
 
-            //If there is something in Product
-            if (_context.Products.Any())
-                return;
-            var filepath = Path.Combine(_hosting.ContentRootPath, "Data/Seeders/testdata.json");
-            var json = File.ReadAllText(filepath);
-            var products = JsonConvert.DeserializeObject<List<Product>>(json);
-            _context.Products.AddRange(products);
-
-            var order = new Order()
+            if (!_context.Categories.Any())
             {
-                OrderDate = DateTime.Now,
-                OrderNumber = "1235",
-                User = user,
-                Items = new List<OrderItem>() {
-                    new OrderItem() {
-                        Product = products.First(),
-                        Quantity = 5,
-                        UnitPrice = products.First().Price
-                    }
-                }
-            };
+                var catfilepath = Path.Combine(_hosting.ContentRootPath, "Data/Seeders/category.json");
+                var catjson = File.ReadAllText(catfilepath);
+                var cat = JsonConvert.DeserializeObject<List<Category>>(catjson);
+                _context.Categories.AddRange(cat);
+            }
 
-            _context.Add(order);
+            if (!_context.Products.Any())
+            {
+                var filepath = Path.Combine(_hosting.ContentRootPath, "Data/Seeders/testdata.json");
+                var json = File.ReadAllText(filepath);
+                var products = JsonConvert.DeserializeObject<List<Product>>(json);
+                _context.Products.AddRange(products);
+
+                //var order = new Order()
+                //{
+                //    OrderDate = DateTime.Now,
+                //    OrderNumber = "44524",
+                //    User = user,
+                //    Items = new List<OrderItem>() {
+                //        new OrderItem() {
+                //            Product = products.First(),
+                //            Quantity = 5,
+                //            UnitPrice = products.First().Price
+                //        }
+                //    }
+                //};
+
+                //_context.Add(order);
+
+
+            }
+
+
+
             _context.SaveChanges();
+
+
+
         }
+
     }
 }

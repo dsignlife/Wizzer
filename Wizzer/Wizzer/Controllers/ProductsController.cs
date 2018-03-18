@@ -13,10 +13,10 @@ namespace Wizzer.Controllers
     [Route("api/[Controller]")]
     public class ProductsController : Controller
     {
-        private readonly IWizzerRepository _repository;
+        private readonly IProductRepository _repository;
         private readonly ILogger<ProductsController> _logger;
 
-        public ProductsController(IWizzerRepository repository, ILogger<ProductsController> logger)
+        public ProductsController(IProductRepository repository, ILogger<ProductsController> logger)
         {
             _repository = repository;
             _logger = logger;

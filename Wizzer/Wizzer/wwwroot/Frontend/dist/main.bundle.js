@@ -167,10 +167,17 @@ exports.Contact = Contact;
 
 /***/ }),
 
+/***/ "./Frontend/app/home/home.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ".centralize {\r\n    margin: auto;\r\n    top: 20%;\r\n    bottom: 0;\r\n    left: 0;\r\n    right: 0;\r\n    position: fixed;\r\n}"
+
+/***/ }),
+
 /***/ "./Frontend/app/home/home.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n    <div class=\"col-md-12\">\r\n        <h2>HomeContent</h2>\r\n    </div>\r\n</div>\r\n"
+module.exports = "<div class=\"row col-md-12\">\r\n    <div class=\"row carousel-holder\">\r\n        <div class=\"col-md-6 col-md-push-3 centralize\">\r\n            <div id=\"carousel-example-generic\" class=\"carousel slide\" data-ride=\"carousel\">\r\n                <ol class=\"carousel-indicators\">\r\n                    <li data-target=\"#carousel-example-generic\" data-slide-to=\"0\" class=\"active\">\r\n                    </li>\r\n                    <li data-target=\"#carousel-example-generic\" data-slide-to=\"1\">\r\n                    </li>\r\n                    <li data-target=\"#carousel-example-generic\" data-slide-to=\"2\">\r\n                    </li>\r\n                </ol>\r\n                <div class=\"carousel-inner\">\r\n                    <div class=\"item active\">\r\n                        <img class=\"slide-image\" src=\"http://ricoh-itpartner.com/ritp/wp-content/uploads/2017/05/web.jpg\" alt=\"\" style=\"width: 900px; height: 540px;\">\r\n                    </div>\r\n                    <div class=\"item\">\r\n                        <img class=\"slide-image\" src=\"http://arlaservices.nl/wp-content/uploads/2016/04/A20160401.jpg\" alt=\"\" style=\"width: 900px; height: 540px;\">\r\n                    </div>\r\n                    <div class=\"item\">\r\n                        <img class=\"slide-image\" src=\"https://www.hostslim.eu/blog/wp-content/uploads/2017/07/xr6508_nieuwe-hardwarewebshop-voor-entertainment-industrie@2x.jpg\" alt=\"\" style=\"max-width: 900px; max-height: 540px;\">\r\n                    </div>\r\n                </div>\r\n                <a class=\"left carousel-control\" href=\"#carousel-example-generic\" data-slide=\"prev\">\r\n                    <span class=\"fa fa-chevron-left\"></span>\r\n                </a>\r\n                <a class=\"right carousel-control\" href=\"#carousel-example-generic\" data-slide=\"next\">\r\n                    <span class=\"fa fa-chevron-right\"></span>\r\n                </a>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n</div>\r\n"
 
 /***/ }),
 
@@ -197,7 +204,7 @@ var Home = /** @class */ (function () {
         core_1.Component({
             selector: "home-page",
             template: __webpack_require__("./Frontend/app/home/home.component.html"),
-            styleUrls: []
+            styles: [__webpack_require__("./Frontend/app/home/home.component.css")]
         })
     ], Home);
     return Home;
@@ -493,7 +500,7 @@ module.exports = ".product-info img {\r\n    border: solid 1px black;\r\n    flo
 /***/ "./Frontend/app/shop/product/productList.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n    \r\n    <div class=\"product-info col-md-4 well well-sm\" *ngFor=\"let p of products\">\r\n        <img src=\"/img/{{p.category}}.jpg\" class=\"img-responsive\" alt=\"\" />\r\n        <h3 style=\"font-size: large; font-weight: bold;\">{{p.title}}</h3>\r\n        <div><strong>Price:</strong> {{p.price}}</div>\r\n        <div><strong>Category:</strong> {{p.category}}</div>\r\n        <div><strong>Description :</strong> {{p.description}}</div>        \r\n        <button id=\"buyButton\" class=\"btn btn-success btn-sm pull-right\" (click)=\"addProduct(p)\">Buy</button>\r\n    </div>\r\n    \r\n</div>"
+module.exports = "<div class=\"row\">\r\n    \r\n    <div class=\"col-xs-12\">\r\n        <div class=\"panel panel-primary\">\r\n            <div class=\"panel-heading\">\r\n                <h1 class=\"panel-title\">Search for Products</h1>\r\n            </div>\r\n            \r\n            <div class=\"panel-body\">\r\n          \r\n                <div class=\"form-group\">\r\n                    <label for=\"searchCategoryId\">Category ID</label>\r\n                    <select id=\"searchCategoryId\"\r\n                            name=\"searchCategoryId\"\r\n                            [(ngModel)]=\"searchEntity.categoryId\"\r\n                            class=\"form-control\">\r\n                        <option *ngFor=\"let cat of searchCategories\"\r\n                                value=\"{{cat.categoryId}}\">\r\n                            {{cat.categoryName}}\r\n                        </option>\r\n                    </select>\r\n                </div>\r\n                \r\n                <div class=\"form-group\">\r\n                    <label for=\"searchProductName\">Product Name</label>\r\n                    <input type=\"text\"\r\n                           id=\"searchProductName\"\r\n                           name=\"searchProductName\"\r\n                           [(ngModel)]=\"searchEntity.productName\"\r\n                           class=\"form-control\" />\r\n                </div>\r\n                \r\n\r\n\r\n            </div>\r\n            \r\n            <div class=\"panel-footer\">\r\n                <button formnovalidate=\"formnovalidate\" class=\"btn btn-sm btn-primary\" (click)=\"search()\"><i class=\"fa fa-search\"></i>&nbsp;Search</button>\r\n                <button formnovalidate=\"formnovalidate\" class=\"btn btn-sm btn-primary\" (click)=\"resetSearch()\"><i class=\"fa fa-share-alt\"></i>&nbsp;Reset</button>\r\n\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"product-info col-md-4 well well-sm\" *ngFor=\"let p of products\">\r\n        <img src=\"/img/{{p.category}}.jpg\" class=\"img-responsive\" alt=\"\" />\r\n        <h3 style=\"font-size: large; font-weight: bold;\">{{p.title}}</h3>\r\n        <div><strong>Price:</strong> {{p.price}}\r\n        </div>\r\n        <div><strong>Category:</strong> {{p.category}}\r\n        </div>\r\n        <div><strong>Description :</strong> {{p.description}}\r\n        </div>\r\n        <button id=\"buyButton\" class=\"btn btn-success btn-sm pull-right\" (click)=\"addProduct(p)\">Buy</button>\r\n    </div>\r\n\r\n</div>"
 
 /***/ }),
 
@@ -550,7 +557,7 @@ exports.ProductList = ProductList;
 /***/ "./Frontend/app/shop/shop.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n    <div class=\"col-md-9\">\r\n        <h3>{{title}}</h3>\r\n        <product-list></product-list>\r\n    </div>\r\n    <div class=\"col-md-3\">\r\n        <div class=\"well well-sm\">\r\n            <the-cart></the-cart>\r\n        </div>\r\n    </div>\r\n</div>"
+module.exports = "<div class=\"row col-md-12\">\r\n    <div class=\"col-md-9\">\r\n        <h3>{{title}}</h3>\r\n        <product-list></product-list>\r\n    </div>\r\n    <div class=\"col-md-3\">\r\n        <div class=\"well well-sm\">\r\n            <the-cart></the-cart>\r\n        </div>\r\n    </div>\r\n</div>"
 
 /***/ }),
 

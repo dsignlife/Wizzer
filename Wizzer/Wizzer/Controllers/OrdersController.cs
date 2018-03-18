@@ -20,12 +20,12 @@ namespace Wizzer.Controllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class OrdersController : Controller
     {
-        private readonly IWizzerRepository _repository;
+        private readonly IOrderRepository _repository;
         private readonly ILogger<OrdersController> _logger;
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
 
-        public OrdersController(IWizzerRepository repository, ILogger<OrdersController> logger, IMapper mapper, UserManager<User> userManager)
+        public OrdersController(IOrderRepository repository, ILogger<OrdersController> logger, IMapper mapper, UserManager<User> userManager)
         {
             _repository = repository;
             _logger = logger;

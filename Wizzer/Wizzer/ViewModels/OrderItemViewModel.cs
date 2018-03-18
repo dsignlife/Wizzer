@@ -12,7 +12,7 @@ namespace Wizzer.ViewModels
         [Required]
         public int ProductId { get; set; }
 
-        public string ProductCategory { get; set; }
+        public int ProductCategoryId { get; set; }
         public decimal ProductPrice { get; set; }
         public string ProductTitle { get; set; }
         public string ProductDescription { get; set; }

@@ -15,12 +15,12 @@ namespace Wizzer.Controllers
 {
     public class AppController : Controller
     {
-        private readonly IWizzerRepository _repository;
+
         private readonly IMailService _mailService;
 
-        public AppController(IWizzerRepository repository, IMailService mailService)
+        public AppController(IMailService mailService)
         {
-            _repository = repository;
+
             _mailService = mailService;
         }
 

@@ -14,11 +14,14 @@ namespace Wizzer.Data
     {
         public WizzerContext(DbContextOptions<WizzerContext> options) : base(options)
         {
-            
+  
         }
 
+        public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
+
+
 
     }
 }

@@ -62,7 +62,12 @@ namespace Wizzer
             services.AddTransient<IMailService, NullMailService>();
             services.AddTransient<WizzerSeeder>();
 
-            services.AddScoped<IWizzerRepository, WizzerRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+
+
             services.AddMvc(option => {
                         if (_environment.IsProduction()) {
                             option.Filters.Add(new RequireHttpsAttribute());
