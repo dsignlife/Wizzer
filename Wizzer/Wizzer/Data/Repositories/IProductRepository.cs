@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Wizzer.Data.Entities;
 
 namespace Wizzer.Data.Repositories {
     public interface IProductRepository {
-        List<Product> GetAllProducts();
+        Task<List<Product>> GetAllProductsAsync();
     }
 }

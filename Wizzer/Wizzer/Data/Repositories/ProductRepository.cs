@@ -19,13 +19,13 @@ namespace Wizzer.Data.Repositories
             _context = context;
             _logger = logger;
         }
-        public List<Product> GetAllProducts()
+        public Task<List<Product>> GetAllProductsAsync()
         {
 
             try
             {
                 _logger.LogInformation("GetAllProducts called");
-                return _context.Products.OrderBy(t => t.Title).Include(c => c.Category).ToList();
+                return _context.Products.OrderBy(t => t.Title).Include(c => c.Category).ToListAsync();
             }
             catch (Exception e)
             {

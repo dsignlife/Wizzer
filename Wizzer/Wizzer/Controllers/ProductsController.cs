@@ -23,14 +23,15 @@ namespace Wizzer.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
             try {
-                return Ok(_repository.GetAllProducts());
+                var products = await _repository.GetAllProductsAsync();
+                return Ok(products);
             }
             catch (Exception e) {
-                _logger.LogError($"Failed to : GetAllProducts {e}");
-                return BadRequest("Failed to GetAllProducts");
+                _logger.LogError($"Failed to : GetAllProductsAsync {e}");
+                return BadRequest("Failed to GetAllProductsAsync");
             }
         }
     }
