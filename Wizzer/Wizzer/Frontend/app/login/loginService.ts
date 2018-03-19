@@ -29,6 +29,7 @@ export class LoginService {
                 var tokenInformation = response.json();
                 this.token = tokenInformation.token;
                 this.tokenExpiration = tokenInformation.expiration;
+                this.loggedIn = true;
                 return true;
             });
 

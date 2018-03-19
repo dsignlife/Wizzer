@@ -314,6 +314,7 @@ var LoginService = /** @class */ (function () {
             var tokenInformation = response.json();
             _this.token = tokenInformation.token;
             _this.tokenExpiration = tokenInformation.expiration;
+            _this.loggedIn = true;
             return true;
         });
     };
@@ -500,7 +501,7 @@ module.exports = ".product-info img {\r\n    border: solid 1px black;\r\n    flo
 /***/ "./Frontend/app/shop/product/productList.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n    \r\n    <div class=\"col-xs-12\">\r\n        <!--<div class=\"panel panel-primary\">\r\n            <div class=\"panel-heading\">\r\n                <h1 class=\"panel-title\">Search for Products</h1>\r\n            </div>\r\n            \r\n            <div class=\"panel-body\">\r\n          \r\n                <div class=\"form-group\">\r\n                    <label for=\"searchCategoryId\">Category ID</label>\r\n                    <select id=\"searchCategoryId\"\r\n                            name=\"searchCategoryId\"\r\n                            [(ngModel)]=\"searchEntity.categoryId\"\r\n                            class=\"form-control\">\r\n                        <option *ngFor=\"let cat of searchCategories\"\r\n                                value=\"{{cat.categoryId}}\">\r\n                            {{cat.categoryName}}\r\n                        </option>\r\n                    </select>\r\n                </div>\r\n                \r\n                <div class=\"form-group\">\r\n                    <label for=\"searchProductName\">Product Name</label>\r\n                    <input type=\"text\"\r\n                           id=\"searchProductName\"\r\n                           name=\"searchProductName\"\r\n                           [(ngModel)]=\"searchEntity.productName\"\r\n                           class=\"form-control\" />\r\n                </div>\r\n                \r\n\r\n\r\n            </div>\r\n            \r\n            <div class=\"panel-footer\">\r\n                <button formnovalidate=\"formnovalidate\" class=\"btn btn-sm btn-primary\" (click)=\"search()\"><i class=\"fa fa-search\"></i>&nbsp;Search</button>\r\n                <button formnovalidate=\"formnovalidate\" class=\"btn btn-sm btn-primary\" (click)=\"resetSearch()\"><i class=\"fa fa-share-alt\"></i>&nbsp;Reset</button>\r\n\r\n            </div>\r\n        </div>-->\r\n    </div>\r\n\r\n    <div class=\"product-info col-md-4 well well-sm\" *ngFor=\"let p of products\">\r\n        <img src=\"/img/{{p.category.categoryName}}.jpg\" class=\"img-responsive\" alt=\"\" />\r\n        <h3 style=\"font-size: large; font-weight: bold;\">{{p.title}}</h3>\r\n        <div><strong>Price:</strong> {{p.price}}\r\n        </div>\r\n        <div><strong>Category:</strong> {{p.category.categoryName}}\r\n        </div>\r\n        <div><strong>Description :</strong> {{p.description}}\r\n        </div>\r\n        <button id=\"buyButton\" class=\"btn btn-success btn-sm pull-right\" (click)=\"addProduct(p)\">Buy</button>\r\n    </div>\r\n\r\n</div>"
+module.exports = "<div class=\"row\">\r\n\r\n    <div class=\"col-xs-12\">\r\n        <div class=\"panel panel-primary\">\r\n            <div class=\"panel-heading\">\r\n                <h1 class=\"panel-title\">Search for Products</h1>\r\n            </div>\r\n\r\n            <div class=\"panel-body\">\r\n\r\n                <div class=\"form-group\">\r\n                    <label for=\"searchCategoryId\">Category ID</label>\r\n                    <select id=\"searchCategoryId\"\r\n                            name=\"searchCategoryId\"\r\n                            class=\"form-control\">\r\n                        <option *ngFor=\"let id of categoryIds\"\r\n                                value=\"{{id}}\">{{id}}\r\n                        </option>\r\n                    </select>\r\n                </div>\r\n\r\n                <div class=\"form-group\">\r\n                    <label for=\"searchProductName\">Product Name</label>\r\n                    <input type=\"text\"\r\n                           id=\"searchProductName\"\r\n                           name=\"searchProductName\"\r\n                           class=\"form-control\" />\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"panel-footer\">\r\n                <button formnovalidate=\"formnovalidate\" class=\"btn btn-sm btn-primary\" (click)=\"search()\"><i class=\"fa fa-search\"></i>&nbsp;Search</button>\r\n                <button formnovalidate=\"formnovalidate\" class=\"btn btn-sm btn-primary\" (click)=\"resetSearch()\"><i class=\"fa fa-share-alt\"></i>&nbsp;Reset</button>\r\n\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"product-info col-md-4 well well-sm\" *ngFor=\"let p of products\">\r\n        <img src=\"/img/{{p.category.categoryName}}.jpg\" class=\"img-responsive\" alt=\"\" />\r\n        <h3 style=\"font-size: large; font-weight: bold;\">{{p.title}}</h3>\r\n        <div>\r\n            <strong>Price:</strong> {{p.price}}\r\n        </div>\r\n        <div>\r\n            <strong>Category:</strong> {{p.category.categoryName}}\r\n        </div>\r\n        <div>\r\n            <strong>Description :</strong> {{p.description}}\r\n        </div>\r\n        <button id=\"buyButton\" class=\"btn btn-success btn-sm pull-right\" (click)=\"addProduct(p)\">Buy</button>\r\n    </div>\r\n\r\n</div>"
 
 /***/ }),
 
@@ -521,9 +522,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var shopService_1 = __webpack_require__("./Frontend/app/shop/shopService.ts");
+var http_1 = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
 var ProductList = /** @class */ (function () {
-    function ProductList(shopService) {
+    function ProductList(shopService, http) {
         this.shopService = shopService;
+        this.http = http;
+        this.categoryIds = [1, 2, 3, 4, 5];
         this.products = shopService.products;
     }
     ProductList.prototype.ngOnInit = function () {
@@ -538,6 +542,14 @@ var ProductList = /** @class */ (function () {
     ProductList.prototype.addProduct = function (product) {
         this.shopService.addToOrder(product);
     };
+    ProductList.prototype.getSearchProductsByCategoryId = function (id) {
+        var _this = this;
+        return this.http.get("/api/category/2")
+            .map(function (result) { return _this.products = result.json(); });
+    };
+    ProductList.prototype.search = function () {
+        //this.getSearchProductsByCategoryId();
+    };
     ProductList = __decorate([
         core_1.Component({
             selector: "product-list",
@@ -545,7 +557,7 @@ var ProductList = /** @class */ (function () {
             styles: [__webpack_require__("./Frontend/app/shop/product/productList.component.css")]
         }),
         core_1.Injectable(),
-        __metadata("design:paramtypes", [shopService_1.ShopService])
+        __metadata("design:paramtypes", [shopService_1.ShopService, http_1.Http])
     ], ProductList);
     return ProductList;
 }());

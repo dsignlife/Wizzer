@@ -35,6 +35,7 @@ var LoginService = /** @class */ (function () {
             var tokenInformation = response.json();
             _this.token = tokenInformation.token;
             _this.tokenExpiration = tokenInformation.expiration;
+            _this.loggedIn = true;
             return true;
         });
     };

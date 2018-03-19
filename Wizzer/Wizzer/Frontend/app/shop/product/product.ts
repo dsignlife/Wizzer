@@ -3,6 +3,7 @@
     price: number;
     title: string;
     description: string;
+    categoryId: number;
     category: Category;
 }
 
