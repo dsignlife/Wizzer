@@ -15,6 +15,7 @@ import { Observable } from "rxjs"
 export class ProductList implements OnInit {
 
     public products: Product[];
+    public searchProducts: Product[] = [];
     public categoryIds: number[] = [1,2,3,4,5];
 
     constructor(private shopService: ShopService, private http : Http) {
@@ -36,8 +37,11 @@ export class ProductList implements OnInit {
     }
 
     public getSearchProductsByCategoryId(id: number): Observable<Product[]> {
-        return this.http.get("/api/category/2")
-            .map((result: Response) => this.products = result.json());
+
+        //Todo fix post
+
+        return this.http.post("/api/category/2", "")
+            .map((result: Response) => this.searchProducts = result.json());
       
     }
 

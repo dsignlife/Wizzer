@@ -38,12 +38,12 @@ namespace Wizzer.Data.Repositories
 
         }
 
-        public List<Product> GetAllProductsByCategoryId(int id)
+        public Task<List<Product>> GetAllProductsByCategoryIdAsync(int id)
         {
             try
             {
                 _logger.LogInformation("GetAllProductsByCategoryId called");
-                return _context.Products.Where(c => c.CategoryId == id).OrderBy(a => a.CategoryId).ToList();
+                return _context.Products.Where(c => c.CategoryId == id).OrderBy(a => a.CategoryId).ToListAsync();
             }
             catch (Exception e)
             {

@@ -38,6 +38,7 @@ namespace Wizzer.Controllers
         {
             try
             {
+                _logger.LogInformation("GetAllCategories called");
                 return Ok(_repository.GetAllCategories());
             }
             catch (Exception e)
@@ -47,18 +48,19 @@ namespace Wizzer.Controllers
             }
         }
 
-        [HttpGet("{id:int}")]
-        public IActionResult Get(int id)
+        [HttpPost("{id:int}")]
+        public async Task<IActionResult> Get(int id)
         {
-            try
-            {
-                return Ok(_repository.GetAllProductsByCategoryId(id));
+            try {
+                _logger.LogInformation("GetAllProductsByCategoryIdAsync called");
+                var searchProducts = await _repository.GetAllProductsByCategoryIdAsync(id);
+                return Ok(searchProducts);
 
             }
             catch (Exception e)
             {
-                _logger.LogError($"Failed to GetAllProductsByCategoryId: {e} ");
-                return BadRequest("Failed to GetAllProductsByCategoryId");
+                _logger.LogError($"Failed to GetAllProductsByCategoryIdAsync: {e} ");
+                return BadRequest("Failed to GetAllProductsByCategoryIdAsync");
             }
         }
 

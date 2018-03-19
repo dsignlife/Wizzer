@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Wizzer.Data.Entities;
 
 namespace Wizzer.Data.Repositories
@@ -6,7 +7,7 @@ namespace Wizzer.Data.Repositories
     public interface ICategoryRepository
     {
         List<Category> GetAllCategories();
-        List<Product> GetAllProductsByCategoryId(int id);
+        Task<List<Product>> GetAllProductsByCategoryIdAsync(int id);
         List<Product> GetAllProductsByCategoryName(string category);
 
     }

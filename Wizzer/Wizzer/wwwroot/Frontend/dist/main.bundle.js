@@ -527,6 +527,7 @@ var ProductList = /** @class */ (function () {
     function ProductList(shopService, http) {
         this.shopService = shopService;
         this.http = http;
+        this.searchProducts = [];
         this.categoryIds = [1, 2, 3, 4, 5];
         this.products = shopService.products;
     }
@@ -543,9 +544,10 @@ var ProductList = /** @class */ (function () {
         this.shopService.addToOrder(product);
     };
     ProductList.prototype.getSearchProductsByCategoryId = function (id) {
+        //Todo fix post
         var _this = this;
-        return this.http.get("/api/category/2")
-            .map(function (result) { return _this.products = result.json(); });
+        return this.http.post("/api/category/2", "")
+            .map(function (result) { return _this.searchProducts = result.json(); });
     };
     ProductList.prototype.search = function () {
         //this.getSearchProductsByCategoryId();
