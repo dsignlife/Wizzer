@@ -13,7 +13,7 @@ namespace Wizzer.Data.Mappings
     {
         public WizzerMapping() 
         {
-            CreateMap<Order, OrderViewModel>().ForMember(o => o.OrderId, m => m.MapFrom(d => d.Id)).ReverseMap();
+            CreateMap<Order, OrderViewModel>().ForMember(o => o.OrderId, m => m.MapFrom(d => d.OrderId)).ReverseMap();
 
             CreateMap<OrderItem, OrderItemViewModel>().ReverseMap();
         }

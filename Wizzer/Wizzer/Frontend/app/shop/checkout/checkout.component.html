@@ -15,8 +15,8 @@
                     </tr>
 
                     <tr *ngFor="let o of shopService.order.items">
-                        <td><img src="/img/Category{{ o.productCategoryId }}.jpg" class="img-thumbnail checkout-thumb" alt="" /></td>
-                        <td>{{ o.productCategoryId }} - {{ o.productTitle }}</td>
+                        <td><img src="/img/Category{{ o.categoryId }}.jpg" class="img-thumbnail checkout-thumb" alt="" /></td>
+                        <td>{{ o.categoryId }} - {{ o.productTitle }}</td>
                         <td>{{ o.quantity }}</td>
                         <td>{{ o.unitPrice|currency:'SEK':true }}</td>
                         <td>{{ (o.unitPrice * o.quantity)|currency:'SEK':true }}</td>

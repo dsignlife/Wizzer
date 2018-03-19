@@ -25,8 +25,7 @@ namespace Wizzer.Data.Repositories
             try
             {
                 _logger.LogInformation("GetAllProducts called");
-                return _context.Products.OrderBy(t => t.Title).Include(c => c.Category)
-                    .ToList();
+                return _context.Products.OrderBy(t => t.Title).Include(c => c.Category).Take(10).ToList();
             }
             catch (Exception e)
             {

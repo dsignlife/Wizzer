@@ -41,7 +41,7 @@ namespace Wizzer.Controllers.API
                 Ok(_repository.GetAllCategories());
 
                 return null;
-                
+
             }
             catch (Exception e)
             {

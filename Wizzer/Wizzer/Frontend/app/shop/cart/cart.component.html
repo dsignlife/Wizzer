@@ -14,7 +14,7 @@
 
     <tbody>
         <tr *ngFor="let o of data.order.items">
-            <td>{{o.productCategoryId}} - {{o.productTitle}}</td>
+            <td>{{o.categoryName}} - {{o.productTitle}}</td>
             <td>{{o.quantity}}</td>
             <td>{{o.unitPrice}}</td>
             <td>{{o.unitPrice * o.quantity}}</td>

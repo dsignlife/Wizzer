@@ -87,7 +87,7 @@ namespace Wizzer.Controllers
                     _repository.AddOrder(newOrder);
                     if (_repository.SaveAll())
                     {
-                        return Created($"api/orders/{newOrder.Id}", _mapper.Map<Order, OrderViewModel>(newOrder));
+                        return Created($"api/orders/{newOrder.OrderId}", _mapper.Map<Order, OrderViewModel>(newOrder));
                     }
 
                 }

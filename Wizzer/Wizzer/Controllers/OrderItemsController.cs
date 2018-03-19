@@ -46,7 +46,7 @@ namespace Wizzer.Controllers
             if (order == null)
                 return NotFound();
 
-            var item = order.Items.FirstOrDefault(i => i.Id == id);
+            var item = order.Items.FirstOrDefault(i => i.OrderItemId == id);
             if (item != null) return Ok(_mapper.Map<IEnumerable<OrderItem>, IEnumerable<OrderItemViewModel>>(order.Items));
             return NotFound();
 

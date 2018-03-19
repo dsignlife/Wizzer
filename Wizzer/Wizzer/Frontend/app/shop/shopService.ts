@@ -36,8 +36,12 @@ export class ShopService {
 
             item = new OrderItem();
             item.productId = product.id;
-            item.productCategoryId = product.category.id;
             item.productTitle = product.title;
+            item.productDescription = product.description;
+
+            item.categoryId = product.category.categoryId;
+            item.categoryName = product.category.categoryName;
+
             item.unitPrice = product.price;
             item.quantity = 1;
             this.order.items.push(item);

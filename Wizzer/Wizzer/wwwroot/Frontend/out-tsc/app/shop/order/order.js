@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-/// <reference path="../product/product.ts" />
 var _ = require("lodash");
 var Order = /** @class */ (function () {
     function Order() {

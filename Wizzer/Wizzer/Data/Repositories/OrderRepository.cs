@@ -56,8 +56,8 @@ namespace Wizzer.Data.Repositories
             return _context.Orders
                            .Include(i => i.Items)
                            .ThenInclude(p => p.Product)
-                           .Where(o => o.Id == id && o.User.UserName == username)
-                           .FirstOrDefault(d => d.Id == id);
+                           .Where(o => o.OrderId == id && o.User.UserName == username)
+                           .FirstOrDefault(d => d.OrderId == id);
         }
 
         public List<Order> GetAllOrdersByUser(string username, bool includeItems)
