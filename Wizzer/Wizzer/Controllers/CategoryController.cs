@@ -12,7 +12,7 @@ using Wizzer.ViewModels;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace Wizzer.Controllers.API
+namespace Wizzer.Controllers
 {
     [Route("api/[Controller]")]
     public class CategoryController : Controller
@@ -34,19 +34,46 @@ namespace Wizzer.Controllers.API
         }
 
         [HttpGet]
-        public IActionResult GetSearchCategories()
+        public IActionResult Get()
         {
             try
             {
-                Ok(_repository.GetAllCategories());
+                return Ok(_repository.GetAllCategories());
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Failed to : GetAllCategories {e}");
+                return BadRequest("Failed to GetAllCategories");
+            }
+        }
 
-                return null;
+        [HttpGet("{id:int}")]
+        public IActionResult Get(int id)
+        {
+            try
+            {
+                return Ok(_repository.GetAllProductsByCategoryId(id));
 
             }
             catch (Exception e)
             {
-                _logger.LogError($"Failed to GetSearchCategory: {e} ");
-                return BadRequest("Failed to GetSearchCategory");
+                _logger.LogError($"Failed to GetAllProductsByCategoryId: {e} ");
+                return BadRequest("Failed to GetAllProductsByCategoryId");
+            }
+        }
+
+        [HttpGet("{name}")]
+        public IActionResult Get(string name)
+        {
+            try
+            {
+                return Ok(_repository.GetAllProductsByCategoryName(name));
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Failed to GetAllProductsByCategoryName: {e} ");
+                return BadRequest("Failed to GetAllProductsByCategoryName");
             }
         }
 

@@ -43,6 +43,7 @@ namespace Wizzer.Data.Repositories
 
         public List<Order> GetAllOrders(bool includeItems)
         {
+            _logger.LogInformation("GetAllOrders called");
             return includeItems ? _context.Orders
                                           .Include(i => i.Items)
                                           .ThenInclude(p => p.Product)
@@ -53,6 +54,7 @@ namespace Wizzer.Data.Repositories
 
         public Order GetOrderById(string username, int id)
         {
+            _logger.LogInformation("GetOrderById called");
             return _context.Orders
                            .Include(i => i.Items)
                            .ThenInclude(p => p.Product)
@@ -62,6 +64,7 @@ namespace Wizzer.Data.Repositories
 
         public List<Order> GetAllOrdersByUser(string username, bool includeItems)
         {
+            _logger.LogInformation("GetAllOrdersByUser called");
             return includeItems ? _context.Orders
                                           .Where(u => u.User.UserName == username)
                                           .Include(i => i.Items)

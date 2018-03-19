@@ -25,7 +25,7 @@ namespace Wizzer.Data.Repositories
             try
             {
                 _logger.LogInformation("GetAllProducts called");
-                return _context.Products.OrderBy(t => t.Title).Include(c => c.Category).Take(10).ToList();
+                return _context.Products.OrderBy(t => t.Title).Include(c => c.Category).ToList();
             }
             catch (Exception e)
             {
@@ -33,12 +33,7 @@ namespace Wizzer.Data.Repositories
                 return null;
             }
 
-
         }
 
-        public List<Product> GetAllProductsByCategory(string category)
-        {
-            return _context.Products.Where(c => category == c.Category.CategoryName).ToList();
-        }
     }
 }
