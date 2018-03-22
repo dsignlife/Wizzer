@@ -43,7 +43,10 @@ namespace Wizzer.Data.Repositories
             try
             {
                 _logger.LogInformation("GetAllProductsByCategoryId called");
-                return _context.Products.Include(cat => cat.Category).Where(c => c.CategoryId == id).OrderBy(a => a.CategoryId).ToListAsync();
+                var products = id > 0 ? _context.Products.Include(cat => cat.Category).Where(c => c.CategoryId == id)
+                                                .OrderBy(a => a.CategoryId).ToListAsync() : null;
+
+                return products;
             }
             catch (Exception e)
             {
@@ -58,9 +61,9 @@ namespace Wizzer.Data.Repositories
         {
             try
             {
-                _logger.LogInformation("GetAllProductsByCategoryName called");
+                _logger.LogInformation("GetAllProductsByProductNameAndCategoryIdAsync called");
 
-                var products = id != 0 ?
+                var products = id > 0 ?
                 _context.Products.Include(cat => cat.Category)
                         .Where(n => n.CategoryId == id && n.Title == name)
                         .OrderBy(a => a.CategoryId).ToListAsync() : _context.Products.Include(cat => cat.Category)
