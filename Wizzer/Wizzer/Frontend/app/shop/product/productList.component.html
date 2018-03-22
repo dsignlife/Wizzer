@@ -14,10 +14,9 @@
 
                     <select id="searchCategoryId"
                             name="searchCategoryId"
-                            ng-model="searchCategoryId"
+                            [(ngModel)]="searchCategoryId"
                             class="form-control">
                         <option *ngFor="let id of shopService.categoryIds"
-                                ng-selected="searchCategoryId"
                                 value="{{id}}">{{id}}
                         </option>
                     </select>
