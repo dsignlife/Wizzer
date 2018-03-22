@@ -56,6 +56,12 @@ var ShopService = /** @class */ (function () {
         return this.http.post("/api/category/" + id, null)
             .map(function (result) { return _this.searchProducts = result.json(); });
     };
+    ShopService.prototype.getSearchProductsByNameAndCategoryId = function (name, id) {
+        var _this = this;
+        //Todo fix post
+        return this.http.post("/api/category/" + name, null)
+            .map(function (result) { return _this.searchProducts = result.json(); });
+    };
     ShopService.prototype.loadProducts = function () {
         var _this = this;
         return this.http.get("/api/products")

@@ -61,6 +61,14 @@ export class ShopService {
 
     }
 
+    public getSearchProductsByNameAndCategoryId(name : string, id?: number): Observable<Product[]> {
+
+        //Todo fix post
+        return this.http.post("/api/category/" + name, null)
+            .map((result: Response) => this.searchProducts = result.json());
+
+    }
+
     public loadProducts(): Observable<Product[]> {
 
         return this.http.get("/api/products")

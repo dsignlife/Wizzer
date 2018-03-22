@@ -20,7 +20,8 @@ export class ProductList implements OnInit {
     public searchProducts: Product[];
 
 
-    public searchCategoryId : number = 1;
+    public searchCategoryId: number = 1;
+    public searchProductName: string;
 
     constructor(private shopService: ShopService, private http: Http) {
         this.products = shopService.products;
@@ -43,11 +44,15 @@ export class ProductList implements OnInit {
     }
 
     public search() {
+
         this.shopService.getSearchProductsByCategoryId(this.searchCategoryId).subscribe(success => {
             if (success) {
                 this.products = this.shopService.searchProducts;
             }
         });;
+
+
+
     }
 
 }
