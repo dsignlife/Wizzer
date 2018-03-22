@@ -12,13 +12,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var shopService_1 = require("../shopService");
 var http_1 = require("@angular/http");
+require("rxjs/add/operator/map");
 var ProductList = /** @class */ (function () {
     function ProductList(shopService, http) {
         this.shopService = shopService;
         this.http = http;
-        this.searchProducts = [];
-        this.categoryIds = [1, 2, 3, 4, 5];
+        this.searchCategoryId = 1;
         this.products = shopService.products;
+        this.searchProducts = shopService.searchProducts;
     }
     ProductList.prototype.ngOnInit = function () {
         var _this = this;
@@ -32,14 +33,14 @@ var ProductList = /** @class */ (function () {
     ProductList.prototype.addProduct = function (product) {
         this.shopService.addToOrder(product);
     };
-    ProductList.prototype.getSearchProductsByCategoryId = function (id) {
-        //Todo fix post
-        var _this = this;
-        return this.http.post("/api/category/2", "")
-            .map(function (result) { return _this.searchProducts = result.json(); });
-    };
     ProductList.prototype.search = function () {
-        //this.getSearchProductsByCategoryId();
+        var _this = this;
+        this.shopService.getSearchProductsByCategoryId(this.searchCategoryId).subscribe(function (success) {
+            if (success) {
+                _this.products = _this.shopService.searchProducts;
+            }
+        });
+        ;
     };
     ProductList = __decorate([
         core_1.Component({

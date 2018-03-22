@@ -15,6 +15,10 @@ export class ShopService {
     public order: Order = new Order();
     public products: Product[] = [];
 
+    public searchProducts: Product[] = [];
+    public categoryIds: number[] = [1, 2, 3, 4, 5];
+
+
     constructor(public http: Http, public loginService: LoginService) {
 
     }
@@ -49,7 +53,16 @@ export class ShopService {
         }
     }
 
+    public getSearchProductsByCategoryId(id: number): Observable<Product[]> {
+
+        //Todo fix post
+        return this.http.post("/api/category/"+id, null)
+            .map((result: Response) => this.searchProducts = result.json());
+
+    }
+
     public loadProducts(): Observable<Product[]> {
+
         return this.http.get("/api/products")
             .map((result: Response) => this.products = result.json());
     }

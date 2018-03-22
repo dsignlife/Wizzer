@@ -20,6 +20,8 @@ var ShopService = /** @class */ (function () {
         this.loginService = loginService;
         this.order = new order_1.Order();
         this.products = [];
+        this.searchProducts = [];
+        this.categoryIds = [1, 2, 3, 4, 5];
     }
     Object.defineProperty(ShopService.prototype, "loginRequired", {
         get: function () {
@@ -47,6 +49,12 @@ var ShopService = /** @class */ (function () {
             item.quantity = 1;
             this.order.items.push(item);
         }
+    };
+    ShopService.prototype.getSearchProductsByCategoryId = function (id) {
+        var _this = this;
+        //Todo fix post
+        return this.http.post("/api/category/" + id, null)
+            .map(function (result) { return _this.searchProducts = result.json(); });
     };
     ShopService.prototype.loadProducts = function () {
         var _this = this;

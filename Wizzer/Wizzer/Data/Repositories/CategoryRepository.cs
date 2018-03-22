@@ -43,7 +43,7 @@ namespace Wizzer.Data.Repositories
             try
             {
                 _logger.LogInformation("GetAllProductsByCategoryId called");
-                return _context.Products.Where(c => c.CategoryId == id).OrderBy(a => a.CategoryId).ToListAsync();
+                return _context.Products.Include(cat => cat.Category).Where(c => c.CategoryId == id).OrderBy(a => a.CategoryId).ToListAsync();
             }
             catch (Exception e)
             {
