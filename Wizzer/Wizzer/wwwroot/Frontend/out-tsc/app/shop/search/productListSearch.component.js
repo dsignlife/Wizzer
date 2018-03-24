@@ -17,6 +17,14 @@ var ProductListSearch = /** @class */ (function () {
         this.categoryIds = [0, 1, 2, 3, 4, 5];
         this.searchCategoryId = 0;
     }
+    ProductListSearch.prototype.ngOnInit = function () {
+        this.shopService.loadCategories()
+            .subscribe(function (success) {
+            if (success) {
+                //
+            }
+        });
+    };
     ProductListSearch.prototype.search = function () {
         var _this = this;
         if (this.searchCategoryId > -1) {

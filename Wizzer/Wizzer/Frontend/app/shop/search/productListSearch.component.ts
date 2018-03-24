@@ -1,7 +1,5 @@
-﻿import { Component, Injectable } from "@angular/core";
+﻿import { Component, Injectable, OnInit } from "@angular/core";
 import { ShopService } from '../shopService';
-import { Product, Category } from "../product/product";
-import { ProductList } from "../product/productList.component";
 
 
 @Component({
@@ -10,7 +8,7 @@ import { ProductList } from "../product/productList.component";
 })
 
 @Injectable()
-export class ProductListSearch {
+export class ProductListSearch implements OnInit {
 
     public categoryIds: number[] = [0, 1, 2, 3, 4, 5];
     public searchCategoryId: number = 0;
@@ -18,6 +16,18 @@ export class ProductListSearch {
 
 
     constructor(private shopService: ShopService) {
+
+    }
+
+    ngOnInit() {
+
+        this.shopService.loadCategories()
+            .subscribe(success => {
+                if (success) {
+                    //
+                }
+            });
+
 
     }
 

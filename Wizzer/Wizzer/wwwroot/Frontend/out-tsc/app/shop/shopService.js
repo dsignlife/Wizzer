@@ -19,19 +19,18 @@ var ShopService = /** @class */ (function () {
         this.http = http;
         this.loginService = loginService;
         this.allProducts = [];
-        this.order = new order_1.Order();
         this.products = [];
+        this.allCategories = [];
         this.searchProducts = [];
+        this.order = new order_1.Order();
     }
-    Object.defineProperty(ShopService.prototype, "loginRequired", {
-        get: function () {
-            return this.loginService.loginRequired;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    ShopService.prototype.login = function (creds) {
-        return this.loginService.login(creds);
+    ///Product List
+    ShopService.prototype.loadProducts = function () {
+        var _this = this;
+        return this.http.get("/api/products")
+            .map(function (result) {
+            return _this.products = _this.allProducts = result.json();
+        });
     };
     ShopService.prototype.addToOrder = function (product) {
         var item = this.order.items.find(function (i) { return i.productId === product.id; });
@@ -50,11 +49,29 @@ var ShopService = /** @class */ (function () {
             this.order.items.push(item);
         }
     };
+    Object.defineProperty(ShopService.prototype, "loginRequired", {
+        ///Login
+        get: function () {
+            return this.loginService.loginRequired;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ShopService.prototype.login = function (creds) {
+        return this.loginService.login(creds);
+    };
+    ///Searching
+    ShopService.prototype.loadCategories = function () {
+        var _this = this;
+        return this.http.get("/api/category/")
+            .map(function (result) {
+            return _this.allCategories = result.json();
+        });
+    };
     ShopService.prototype.getSearchProductsByCategoryId = function (id) {
         var _this = this;
         if (id < 0)
             id = 0;
-        //Todo fix post
         return this.http.post("/api/category/" + id, null)
             .map(function (result) { return _this.searchProducts = result.json(); });
     };
@@ -66,13 +83,6 @@ var ShopService = /** @class */ (function () {
         else {
             return this.http.post("/api/category/" + id + "/" + name, null).map(function (result) { return _this.searchProducts = result.json(); });
         }
-    };
-    ShopService.prototype.loadProducts = function () {
-        var _this = this;
-        return this.http.get("/api/products")
-            .map(function (result) {
-            return _this.products = _this.allProducts = result.json();
-        });
     };
     ShopService = __decorate([
         core_1.Injectable(),

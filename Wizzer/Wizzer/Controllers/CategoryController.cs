@@ -34,12 +34,13 @@ namespace Wizzer.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
             try
             {
                 _logger.LogInformation("GetAllCategories called");
-                return Ok(_repository.GetAllCategories());
+                var allCategories = await _repository.GetAllCategoriesAsync();
+                return Ok(allCategories);
             }
             catch (Exception e)
             {
@@ -87,7 +88,7 @@ namespace Wizzer.Controllers
             try
             {
                 _logger.LogInformation("GetProductsByNameAsync called");
-                var searchProducts = await _repository.GetProductsByName(name);
+                var searchProducts = await _repository.GetProductsByNameAsync(name);
                 return Ok(searchProducts);
 
             }

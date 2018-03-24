@@ -22,12 +22,12 @@ namespace Wizzer.Data.Repositories
             _logger = logger;
         }
 
-        public List<Category> GetAllCategories()
+        public Task<List<Category>> GetAllCategoriesAsync()
         {
             try
             {
                 _logger.LogInformation("GetAllCategories called");
-                return _context.Categories.OrderBy(t => t.CategoryName).ToList();
+                return _context.Categories.OrderBy(t => t.CategoryName).ToListAsync();
             }
             catch (Exception e)
             {
@@ -57,7 +57,7 @@ namespace Wizzer.Data.Repositories
 
         }
 
-        public Task<List<Product>> GetProductsByName(string name)
+        public Task<List<Product>> GetProductsByNameAsync(string name)
         {
             try
             {

@@ -558,7 +558,7 @@ exports.ProductList = ProductList;
 /***/ "./Frontend/app/shop/search/productListSearch.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n\r\n    <div class=\"col-xs-12\">\r\n        <div class=\"panel panel-primary\">\r\n            <div class=\"panel-heading\">\r\n                <h1 class=\"panel-title\">Search for Products</h1>\r\n            </div>\r\n\r\n            <div class=\"panel-body\">\r\n\r\n                <div class=\"form-group\">\r\n                    <label for=\"searchCategoryId\">Category ID</label>\r\n\r\n\r\n                    <select id=\"searchCategoryId\"\r\n                            name=\"searchCategoryId\"\r\n                            [(ngModel)]=\"searchCategoryId\"\r\n                            class=\"form-control\">\r\n                        <option *ngFor=\"let id of categoryIds\"\r\n                                value=\"{{id}}\">\r\n                            {{id}}\r\n                        </option>\r\n                    </select>\r\n\r\n                </div>\r\n                <div class=\"form-group\">\r\n                    <label for=\"searchProductName\">Product Name</label>\r\n                    <input type=\"text\"\r\n                           id=\"searchProductName\"\r\n                           name=\"searchProductName\"\r\n                           [(ngModel)]=\"searchProductName\"\r\n                           class=\"form-control\" />\r\n                </div>\r\n\r\n                <div>singleSelect = {{searchCategoryId}}</div>\r\n                <div>singleInput = {{searchProductName}}</div>\r\n\r\n            </div>\r\n\r\n            <div class=\"panel-footer\">\r\n                <button formnovalidate=\"formnovalidate\" class=\"btn btn-sm btn-primary\" (click)=\"search()\"><i class=\"fa fa-search\"></i>&nbsp;Search</button>\r\n                <button formnovalidate=\"formnovalidate\" class=\"btn btn-sm btn-primary\" (click)=\"resetSearch()\"><i class=\"fa fa-share-alt\"></i>&nbsp;Reset</button>\r\n\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
+module.exports = "<div class=\"row\">\r\n\r\n    <div class=\"col-xs-12\">\r\n        <div class=\"panel panel-primary\">\r\n            <div class=\"panel-heading\">\r\n                <h1 class=\"panel-title\">Search for Products</h1>\r\n            </div>\r\n\r\n            <div class=\"panel-body\">\r\n\r\n                <div class=\"form-group\">\r\n                    <label for=\"searchCategoryId\">Category ID</label>\r\n\r\n\r\n                    <select id=\"searchCategoryId\"\r\n                            name=\"searchCategoryId\"\r\n                            [(ngModel)]=\"searchCategoryId\"\r\n                            class=\"form-control\">\r\n                        <option *ngFor=\"let id of shopService.allCategories\"\r\n                                value=\"{{id.categoryId}}\">\r\n                            {{id.categoryName}}\r\n                        </option>\r\n                    </select>\r\n\r\n                </div>\r\n                <div class=\"form-group\">\r\n                    <label for=\"searchProductName\">Product Name</label>\r\n                    <input type=\"text\"\r\n                           id=\"searchProductName\"\r\n                           name=\"searchProductName\"\r\n                           [(ngModel)]=\"searchProductName\"\r\n                           class=\"form-control\" />\r\n                </div>\r\n\r\n                <div>singleSelect = {{searchCategoryId}}</div>\r\n                <div>singleInput = {{searchProductName}}</div>\r\n\r\n            </div>\r\n\r\n            <div class=\"panel-footer\">\r\n                <button formnovalidate=\"formnovalidate\" class=\"btn btn-sm btn-primary\" (click)=\"search()\"><i class=\"fa fa-search\"></i>&nbsp;Search</button>\r\n                <button formnovalidate=\"formnovalidate\" class=\"btn btn-sm btn-primary\" (click)=\"resetSearch()\"><i class=\"fa fa-share-alt\"></i>&nbsp;Reset</button>\r\n\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
 
 /***/ }),
 
@@ -585,6 +585,14 @@ var ProductListSearch = /** @class */ (function () {
         this.categoryIds = [0, 1, 2, 3, 4, 5];
         this.searchCategoryId = 0;
     }
+    ProductListSearch.prototype.ngOnInit = function () {
+        this.shopService.loadCategories()
+            .subscribe(function (success) {
+            if (success) {
+                //
+            }
+        });
+    };
     ProductListSearch.prototype.search = function () {
         var _this = this;
         if (this.searchCategoryId > -1) {
@@ -688,19 +696,18 @@ var ShopService = /** @class */ (function () {
         this.http = http;
         this.loginService = loginService;
         this.allProducts = [];
-        this.order = new order_1.Order();
         this.products = [];
+        this.allCategories = [];
         this.searchProducts = [];
+        this.order = new order_1.Order();
     }
-    Object.defineProperty(ShopService.prototype, "loginRequired", {
-        get: function () {
-            return this.loginService.loginRequired;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    ShopService.prototype.login = function (creds) {
-        return this.loginService.login(creds);
+    ///Product List
+    ShopService.prototype.loadProducts = function () {
+        var _this = this;
+        return this.http.get("/api/products")
+            .map(function (result) {
+            return _this.products = _this.allProducts = result.json();
+        });
     };
     ShopService.prototype.addToOrder = function (product) {
         var item = this.order.items.find(function (i) { return i.productId === product.id; });
@@ -719,11 +726,29 @@ var ShopService = /** @class */ (function () {
             this.order.items.push(item);
         }
     };
+    Object.defineProperty(ShopService.prototype, "loginRequired", {
+        ///Login
+        get: function () {
+            return this.loginService.loginRequired;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ShopService.prototype.login = function (creds) {
+        return this.loginService.login(creds);
+    };
+    ///Searching
+    ShopService.prototype.loadCategories = function () {
+        var _this = this;
+        return this.http.get("/api/category/")
+            .map(function (result) {
+            return _this.allCategories = result.json();
+        });
+    };
     ShopService.prototype.getSearchProductsByCategoryId = function (id) {
         var _this = this;
         if (id < 0)
             id = 0;
-        //Todo fix post
         return this.http.post("/api/category/" + id, null)
             .map(function (result) { return _this.searchProducts = result.json(); });
     };
@@ -735,13 +760,6 @@ var ShopService = /** @class */ (function () {
         else {
             return this.http.post("/api/category/" + id + "/" + name, null).map(function (result) { return _this.searchProducts = result.json(); });
         }
-    };
-    ShopService.prototype.loadProducts = function () {
-        var _this = this;
-        return this.http.get("/api/products")
-            .map(function (result) {
-            return _this.products = _this.allProducts = result.json();
-        });
     };
     ShopService = __decorate([
         core_1.Injectable(),

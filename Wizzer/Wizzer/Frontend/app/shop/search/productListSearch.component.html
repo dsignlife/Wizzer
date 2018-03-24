@@ -16,9 +16,9 @@
                             name="searchCategoryId"
                             [(ngModel)]="searchCategoryId"
                             class="form-control">
-                        <option *ngFor="let id of categoryIds"
-                                value="{{id}}">
-                            {{id}}
+                        <option *ngFor="let id of shopService.allCategories"
+                                value="{{id.categoryId}}">
+                            {{id.categoryName}}
                         </option>
                     </select>
 

@@ -6,9 +6,9 @@ namespace Wizzer.Data.Repositories
 {
     public interface ICategoryRepository
     {
-        List<Category> GetAllCategories();
+        Task<List<Category>> GetAllCategoriesAsync();
         Task<List<Product>> GetAllProductsByCategoryIdAsync(int id);
-        Task<List<Product>> GetProductsByName(string name);
+        Task<List<Product>> GetProductsByNameAsync(string name);
         Task<List<Product>> GetAllProductsByProductNameAndCategoryIdAsync(string category, int id);
 
     }
