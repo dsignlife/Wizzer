@@ -11,36 +11,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var shopService_1 = require("../shopService");
-var http_1 = require("@angular/http");
 require("rxjs/add/operator/map");
 var ProductList = /** @class */ (function () {
-    function ProductList(shopService, http) {
+    function ProductList(shopService) {
         this.shopService = shopService;
-        this.http = http;
-        this.searchCategoryId = 1;
-        this.products = shopService.products;
-        this.searchProducts = shopService.searchProducts;
     }
     ProductList.prototype.ngOnInit = function () {
-        var _this = this;
         this.shopService.loadProducts()
             .subscribe(function (success) {
             if (success) {
-                _this.products = _this.shopService.products;
+                //
             }
         });
     };
     ProductList.prototype.addProduct = function (product) {
         this.shopService.addToOrder(product);
-    };
-    ProductList.prototype.search = function () {
-        var _this = this;
-        this.shopService.getSearchProductsByCategoryId(this.searchCategoryId).subscribe(function (success) {
-            if (success) {
-                _this.products = _this.shopService.searchProducts;
-            }
-        });
-        ;
     };
     ProductList = __decorate([
         core_1.Component({
@@ -49,7 +34,7 @@ var ProductList = /** @class */ (function () {
             styleUrls: ["productList.component.css"]
         }),
         core_1.Injectable(),
-        __metadata("design:paramtypes", [shopService_1.ShopService, http_1.Http])
+        __metadata("design:paramtypes", [shopService_1.ShopService])
     ], ProductList);
     return ProductList;
 }());

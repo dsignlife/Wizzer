@@ -8,6 +8,7 @@ import { RouterModule } from "@angular/router";
 import { FormsModule } from "@angular/forms";
 
 
+
 import * as $ from "jquery";
 
 //Components
@@ -17,9 +18,12 @@ import { Home } from "./home/home.component";
 import { Contact } from "./contact/contact.component";
 import { Login } from "./login/login.component";
 import { ProductList } from "./shop/product/productList.component";
+import { ProductListSearch } from "./shop/search/productListSearch.component";
 import { Cart } from "./shop/cart/cart.component";
 import { Shop } from "./shop/shop.component";
 import { Checkout } from "./shop/checkout/checkout.component";
+
+
 //DataServices
 import { LoginService } from "./login/loginService";
 import { ShopService } from "./shop/shopService";
@@ -40,6 +44,8 @@ NgModule({
         Home,
         Contact,
         ProductList,
+        ProductListSearch,
+
         Cart,
         Shop,
         Checkout,

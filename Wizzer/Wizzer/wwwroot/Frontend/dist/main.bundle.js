@@ -81,6 +81,7 @@ var home_component_1 = __webpack_require__("./Frontend/app/home/home.component.t
 var contact_component_1 = __webpack_require__("./Frontend/app/contact/contact.component.ts");
 var login_component_1 = __webpack_require__("./Frontend/app/login/login.component.ts");
 var productList_component_1 = __webpack_require__("./Frontend/app/shop/product/productList.component.ts");
+var productListSearch_component_1 = __webpack_require__("./Frontend/app/shop/search/productListSearch.component.ts");
 var cart_component_1 = __webpack_require__("./Frontend/app/shop/cart/cart.component.ts");
 var shop_component_1 = __webpack_require__("./Frontend/app/shop/shop.component.ts");
 var checkout_component_1 = __webpack_require__("./Frontend/app/shop/checkout/checkout.component.ts");
@@ -105,6 +106,7 @@ var AppModule = /** @class */ (function () {
                 home_component_1.Home,
                 contact_component_1.Contact,
                 productList_component_1.ProductList,
+                productListSearch_component_1.ProductListSearch,
                 cart_component_1.Cart,
                 shop_component_1.Shop,
                 checkout_component_1.Checkout,
@@ -438,7 +440,6 @@ var Checkout = /** @class */ (function () {
             headers: new http_1.Headers({ "Authorization": "Bearer " + this.shopService.loginService.token })
         })
             .map(function (response) {
-            var a = response.json();
             _this.shopService.order = new order_1.Order();
             return true;
         });
@@ -501,7 +502,7 @@ module.exports = ".product-info img {\r\n    border: solid 1px black;\r\n    flo
 /***/ "./Frontend/app/shop/product/productList.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n\r\n    <div class=\"col-xs-12\">\r\n        <div class=\"panel panel-primary\">\r\n            <div class=\"panel-heading\">\r\n                <h1 class=\"panel-title\">Search for Products</h1>\r\n            </div>\r\n\r\n            <div class=\"panel-body\">\r\n\r\n                <div class=\"form-group\">\r\n                    <label for=\"searchCategoryId\">Category ID</label>\r\n\r\n\r\n                    <select id=\"searchCategoryId\"\r\n                            name=\"searchCategoryId\"\r\n                            [(ngModel)]=\"searchCategoryId\"\r\n                            class=\"form-control\">\r\n                        <option *ngFor=\"let id of shopService.categoryIds\"\r\n                                value=\"{{id}}\">{{id}}\r\n                        </option>\r\n                    </select>\r\n\r\n                </div>\r\n                <div>singleSelect = {{searchCategoryId}}</div>\r\n\r\n                <div class=\"form-group\">\r\n                    <label for=\"searchProductName\">Product Name</label>\r\n                    <input type=\"text\"\r\n                           id=\"searchProductName\"\r\n                           name=\"searchProductName\"\r\n                           class=\"form-control\" />\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"panel-footer\">\r\n                <button formnovalidate=\"formnovalidate\" class=\"btn btn-sm btn-primary\" (click)=\"search()\"><i class=\"fa fa-search\"></i>&nbsp;Search</button>\r\n                <button formnovalidate=\"formnovalidate\" class=\"btn btn-sm btn-primary\" (click)=\"resetSearch()\"><i class=\"fa fa-share-alt\"></i>&nbsp;Reset</button>\r\n\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"product-info col-md-4 well well-sm\" *ngFor=\"let p of products\">\r\n        <img src=\"/img/{{p.category.categoryName}}.jpg\" class=\"img-responsive\" alt=\"\" />\r\n        <h3 style=\"font-size: large; font-weight: bold;\">{{p.title}}</h3>\r\n        <div>\r\n            <strong>Price:</strong> {{p.price}}\r\n        </div>\r\n        <div>\r\n            <strong>Category:</strong> {{p.category.categoryName}}\r\n        </div>\r\n        <div>\r\n            <strong>Description :</strong> {{p.description}}\r\n        </div>\r\n        <button id=\"buyButton\" class=\"btn btn-success btn-sm pull-right\" (click)=\"addProduct(p)\">Buy</button>\r\n    </div>\r\n\r\n</div>"
+module.exports = "<div class=\"row\">\r\n\r\n    <div class=\"product-info col-md-4 well well-sm\" *ngFor=\"let p of shopService.products\">\r\n        <img src=\"/img/{{p.category.categoryName}}.jpg\" class=\"img-responsive\" alt=\"\" />\r\n        <h3 style=\"font-size: large; font-weight: bold;\">{{p.title}}</h3>\r\n        <div>\r\n            <strong>Price:</strong> {{p.price}}\r\n        </div>\r\n        <div>\r\n            <strong>Category:</strong> {{p.category.categoryName}}\r\n        </div>\r\n        <div>\r\n            <strong>Description :</strong> {{p.description}}\r\n        </div>\r\n        <button id=\"buyButton\" class=\"btn btn-success btn-sm pull-right\" (click)=\"addProduct(p)\">Buy</button>\r\n    </div>\r\n\r\n</div>"
 
 /***/ }),
 
@@ -522,36 +523,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var shopService_1 = __webpack_require__("./Frontend/app/shop/shopService.ts");
-var http_1 = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
 __webpack_require__("./node_modules/rxjs/_esm5/add/operator/map.js");
 var ProductList = /** @class */ (function () {
-    function ProductList(shopService, http) {
+    function ProductList(shopService) {
         this.shopService = shopService;
-        this.http = http;
-        this.searchCategoryId = 1;
-        this.products = shopService.products;
-        this.searchProducts = shopService.searchProducts;
     }
     ProductList.prototype.ngOnInit = function () {
-        var _this = this;
         this.shopService.loadProducts()
             .subscribe(function (success) {
             if (success) {
-                _this.products = _this.shopService.products;
+                //
             }
         });
     };
     ProductList.prototype.addProduct = function (product) {
         this.shopService.addToOrder(product);
-    };
-    ProductList.prototype.search = function () {
-        var _this = this;
-        this.shopService.getSearchProductsByCategoryId(this.searchCategoryId).subscribe(function (success) {
-            if (success) {
-                _this.products = _this.shopService.searchProducts;
-            }
-        });
-        ;
     };
     ProductList = __decorate([
         core_1.Component({
@@ -560,7 +546,7 @@ var ProductList = /** @class */ (function () {
             styles: [__webpack_require__("./Frontend/app/shop/product/productList.component.css")]
         }),
         core_1.Injectable(),
-        __metadata("design:paramtypes", [shopService_1.ShopService, http_1.Http])
+        __metadata("design:paramtypes", [shopService_1.ShopService])
     ], ProductList);
     return ProductList;
 }());
@@ -569,10 +555,81 @@ exports.ProductList = ProductList;
 
 /***/ }),
 
+/***/ "./Frontend/app/shop/search/productListSearch.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row\">\r\n\r\n    <div class=\"col-xs-12\">\r\n        <div class=\"panel panel-primary\">\r\n            <div class=\"panel-heading\">\r\n                <h1 class=\"panel-title\">Search for Products</h1>\r\n            </div>\r\n\r\n            <div class=\"panel-body\">\r\n\r\n                <div class=\"form-group\">\r\n                    <label for=\"searchCategoryId\">Category ID</label>\r\n\r\n\r\n                    <select id=\"searchCategoryId\"\r\n                            name=\"searchCategoryId\"\r\n                            [(ngModel)]=\"searchCategoryId\"\r\n                            class=\"form-control\">\r\n                        <option *ngFor=\"let id of categoryIds\"\r\n                                value=\"{{id}}\">\r\n                            {{id}}\r\n                        </option>\r\n                    </select>\r\n\r\n                </div>\r\n                <div class=\"form-group\">\r\n                    <label for=\"searchProductName\">Product Name</label>\r\n                    <input type=\"text\"\r\n                           id=\"searchProductName\"\r\n                           name=\"searchProductName\"\r\n                           [(ngModel)]=\"searchProductName\"\r\n                           class=\"form-control\" />\r\n                </div>\r\n\r\n                <div>singleSelect = {{searchCategoryId}}</div>\r\n                <div>singleInput = {{searchProductName}}</div>\r\n\r\n            </div>\r\n\r\n            <div class=\"panel-footer\">\r\n                <button formnovalidate=\"formnovalidate\" class=\"btn btn-sm btn-primary\" (click)=\"search()\"><i class=\"fa fa-search\"></i>&nbsp;Search</button>\r\n                <button formnovalidate=\"formnovalidate\" class=\"btn btn-sm btn-primary\" (click)=\"resetSearch()\"><i class=\"fa fa-share-alt\"></i>&nbsp;Reset</button>\r\n\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
+
+/***/ }),
+
+/***/ "./Frontend/app/shop/search/productListSearch.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var shopService_1 = __webpack_require__("./Frontend/app/shop/shopService.ts");
+var ProductListSearch = /** @class */ (function () {
+    function ProductListSearch(shopService) {
+        this.shopService = shopService;
+        this.categoryIds = [0, 1, 2, 3, 4, 5];
+        this.searchCategoryId = 0;
+    }
+    ProductListSearch.prototype.search = function () {
+        var _this = this;
+        if (this.searchCategoryId > -1) {
+            if (this.searchProductName.length > 0) {
+                this.shopService.getSearchProductsByNameAndCategoryId(this.searchProductName, this.searchCategoryId)
+                    .subscribe(function (success) {
+                    if (success) {
+                        _this.shopService.products = _this.shopService.searchProducts;
+                    }
+                });
+            }
+            else {
+                this.shopService.getSearchProductsByCategoryId(this.searchCategoryId).subscribe(function (success) {
+                    if (success) {
+                        _this.shopService.products = _this.shopService.searchProducts;
+                    }
+                });
+            }
+        }
+        else {
+            //error message
+        }
+    };
+    ProductListSearch.prototype.resetSearch = function () {
+        this.shopService.products = this.shopService.allProducts;
+    };
+    ProductListSearch = __decorate([
+        core_1.Component({
+            selector: "product-list-search",
+            template: __webpack_require__("./Frontend/app/shop/search/productListSearch.component.html")
+        }),
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [shopService_1.ShopService])
+    ], ProductListSearch);
+    return ProductListSearch;
+}());
+exports.ProductListSearch = ProductListSearch;
+
+
+/***/ }),
+
 /***/ "./Frontend/app/shop/shop.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row col-md-12\">\r\n    <div class=\"col-md-9\">\r\n        <h3>{{title}}</h3>\r\n        <product-list></product-list>\r\n    </div>\r\n    <div class=\"col-md-3\">\r\n        <div class=\"well well-sm\">\r\n            <the-cart></the-cart>\r\n        </div>\r\n    </div>\r\n</div>"
+module.exports = "<div class=\"row col-md-12\">\r\n    <div class=\"col-md-9\">\r\n        <h3>{{title}}</h3>\r\n        <product-list-search></product-list-search>\r\n        <product-list></product-list>\r\n    </div>\r\n    <div class=\"col-md-3\">\r\n        <div class=\"well well-sm\">\r\n            <the-cart></the-cart>\r\n        </div>\r\n    </div>\r\n</div>"
 
 /***/ }),
 
@@ -630,10 +687,10 @@ var ShopService = /** @class */ (function () {
     function ShopService(http, loginService) {
         this.http = http;
         this.loginService = loginService;
+        this.allProducts = [];
         this.order = new order_1.Order();
         this.products = [];
         this.searchProducts = [];
-        this.categoryIds = [1, 2, 3, 4, 5];
     }
     Object.defineProperty(ShopService.prototype, "loginRequired", {
         get: function () {
@@ -664,14 +721,27 @@ var ShopService = /** @class */ (function () {
     };
     ShopService.prototype.getSearchProductsByCategoryId = function (id) {
         var _this = this;
+        if (id < 0)
+            id = 0;
         //Todo fix post
         return this.http.post("/api/category/" + id, null)
             .map(function (result) { return _this.searchProducts = result.json(); });
     };
+    ShopService.prototype.getSearchProductsByNameAndCategoryId = function (name, id) {
+        var _this = this;
+        if (id < 1) {
+            return this.http.post("/api/category/" + name, null).map(function (result) { return _this.searchProducts = result.json(); });
+        }
+        else {
+            return this.http.post("/api/category/" + id + "/" + name, null).map(function (result) { return _this.searchProducts = result.json(); });
+        }
+    };
     ShopService.prototype.loadProducts = function () {
         var _this = this;
         return this.http.get("/api/products")
-            .map(function (result) { return _this.products = result.json(); });
+            .map(function (result) {
+            return _this.products = _this.allProducts = result.json();
+        });
     };
     ShopService = __decorate([
         core_1.Injectable(),

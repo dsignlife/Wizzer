@@ -38,7 +38,6 @@ export class Checkout {
             headers: new Headers({ "Authorization": "Bearer " + this.shopService.loginService.token })
             })
             .map(response => {
-                var a = response.json();
                 this.shopService.order = new Order();
                 return true;
             });

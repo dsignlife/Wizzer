@@ -20,6 +20,7 @@ var home_component_1 = require("./home/home.component");
 var contact_component_1 = require("./contact/contact.component");
 var login_component_1 = require("./login/login.component");
 var productList_component_1 = require("./shop/product/productList.component");
+var productListSearch_component_1 = require("./shop/search/productListSearch.component");
 var cart_component_1 = require("./shop/cart/cart.component");
 var shop_component_1 = require("./shop/shop.component");
 var checkout_component_1 = require("./shop/checkout/checkout.component");
@@ -44,6 +45,7 @@ var AppModule = /** @class */ (function () {
                 home_component_1.Home,
                 contact_component_1.Contact,
                 productList_component_1.ProductList,
+                productListSearch_component_1.ProductListSearch,
                 cart_component_1.Cart,
                 shop_component_1.Shop,
                 checkout_component_1.Checkout,

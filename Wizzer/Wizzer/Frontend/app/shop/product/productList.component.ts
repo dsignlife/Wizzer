@@ -2,8 +2,6 @@
 import { ShopService } from '../shopService';
 import { Product, Category } from "./product";
 
-import { Http, Response, Headers } from "@angular/http";
-import { Observable } from "rxjs"
 import 'rxjs/add/operator/map';
 
 
@@ -16,16 +14,8 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ProductList implements OnInit {
 
-    public products: Product[];
-    public searchProducts: Product[];
+    constructor(private shopService: ShopService) {
 
-
-    public searchCategoryId: number = 1;
-    public searchProductName: string;
-
-    constructor(private shopService: ShopService, private http: Http) {
-        this.products = shopService.products;
-        this.searchProducts = shopService.searchProducts;
     }
 
     ngOnInit() {
@@ -33,26 +23,15 @@ export class ProductList implements OnInit {
         this.shopService.loadProducts()
             .subscribe(success => {
                 if (success) {
-                    this.products = this.shopService.products;
+                    //
                 }
             });
+
 
     }
 
     public addProduct(product: Product) {
         this.shopService.addToOrder(product);
-    }
-
-    public search() {
-
-        this.shopService.getSearchProductsByCategoryId(this.searchCategoryId).subscribe(success => {
-            if (success) {
-                this.products = this.shopService.searchProducts;
-            }
-        });;
-
-
-
     }
 
 }

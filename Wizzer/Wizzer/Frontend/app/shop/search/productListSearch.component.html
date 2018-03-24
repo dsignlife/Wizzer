@@ -1,0 +1,47 @@
+﻿<div class="row">
+
+    <div class="col-xs-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">Search for Products</h1>
+            </div>
+
+            <div class="panel-body">
+
+                <div class="form-group">
+                    <label for="searchCategoryId">Category ID</label>
+
+
+                    <select id="searchCategoryId"
+                            name="searchCategoryId"
+                            [(ngModel)]="searchCategoryId"
+                            class="form-control">
+                        <option *ngFor="let id of categoryIds"
+                                value="{{id}}">
+                            {{id}}
+                        </option>
+                    </select>
+
+                </div>
+                <div class="form-group">
+                    <label for="searchProductName">Product Name</label>
+                    <input type="text"
+                           id="searchProductName"
+                           name="searchProductName"
+                           [(ngModel)]="searchProductName"
+                           class="form-control" />
+                </div>
+
+                <div>singleSelect = {{searchCategoryId}}</div>
+                <div>singleInput = {{searchProductName}}</div>
+
+            </div>
+
+            <div class="panel-footer">
+                <button formnovalidate="formnovalidate" class="btn btn-sm btn-primary" (click)="search()"><i class="fa fa-search"></i>&nbsp;Search</button>
+                <button formnovalidate="formnovalidate" class="btn btn-sm btn-primary" (click)="resetSearch()"><i class="fa fa-share-alt"></i>&nbsp;Reset</button>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -12,12 +12,12 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ShopService {
 
+    public allProducts: Product[] = [];
+
     public order: Order = new Order();
     public products: Product[] = [];
 
     public searchProducts: Product[] = [];
-    public categoryIds: number[] = [1, 2, 3, 4, 5];
-
 
     constructor(public http: Http, public loginService: LoginService) {
 
@@ -54,25 +54,34 @@ export class ShopService {
     }
 
     public getSearchProductsByCategoryId(id: number): Observable<Product[]> {
+        if (id < 0)
+            id = 0;
 
         //Todo fix post
-        return this.http.post("/api/category/"+id, null)
+        return this.http.post("/api/category/" + id, null)
             .map((result: Response) => this.searchProducts = result.json());
 
     }
 
-    public getSearchProductsByNameAndCategoryId(name : string, id?: number): Observable<Product[]> {
-
-        //Todo fix post
-        return this.http.post("/api/category/" + name, null)
-            .map((result: Response) => this.searchProducts = result.json());
+    public getSearchProductsByNameAndCategoryId(name: string, id: number): Observable<Product[]> {
+        if (id < 1) {
+            return this.http.post("/api/category/"+ name, null).map((result: Response) => this.searchProducts = result.json());
+        }
+        else {
+            return this.http.post("/api/category/"+ id + "/" + name, null).map((result: Response) => this.searchProducts = result.json());
+        }
 
     }
+
+
+
 
     public loadProducts(): Observable<Product[]> {
 
         return this.http.get("/api/products")
-            .map((result: Response) => this.products = result.json());
+            .map((result: Response) => 
+                this.products = this.allProducts = result.json()                
+            );
     }
 
 }

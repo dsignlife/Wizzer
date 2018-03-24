@@ -8,6 +8,7 @@ namespace Wizzer.Data.Repositories
     {
         List<Category> GetAllCategories();
         Task<List<Product>> GetAllProductsByCategoryIdAsync(int id);
+        Task<List<Product>> GetProductsByName(string name);
         Task<List<Product>> GetAllProductsByProductNameAndCategoryIdAsync(string category, int id);
 
     }

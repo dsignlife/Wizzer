@@ -37,7 +37,6 @@ var Checkout = /** @class */ (function () {
             headers: new http_1.Headers({ "Authorization": "Bearer " + this.shopService.loginService.token })
         })
             .map(function (response) {
-            var a = response.json();
             _this.shopService.order = new order_1.Order();
             return true;
         });

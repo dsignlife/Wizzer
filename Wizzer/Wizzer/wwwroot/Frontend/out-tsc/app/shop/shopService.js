@@ -18,10 +18,10 @@ var ShopService = /** @class */ (function () {
     function ShopService(http, loginService) {
         this.http = http;
         this.loginService = loginService;
+        this.allProducts = [];
         this.order = new order_1.Order();
         this.products = [];
         this.searchProducts = [];
-        this.categoryIds = [1, 2, 3, 4, 5];
     }
     Object.defineProperty(ShopService.prototype, "loginRequired", {
         get: function () {
@@ -52,20 +52,27 @@ var ShopService = /** @class */ (function () {
     };
     ShopService.prototype.getSearchProductsByCategoryId = function (id) {
         var _this = this;
+        if (id < 0)
+            id = 0;
         //Todo fix post
         return this.http.post("/api/category/" + id, null)
             .map(function (result) { return _this.searchProducts = result.json(); });
     };
     ShopService.prototype.getSearchProductsByNameAndCategoryId = function (name, id) {
         var _this = this;
-        //Todo fix post
-        return this.http.post("/api/category/" + name, null)
-            .map(function (result) { return _this.searchProducts = result.json(); });
+        if (id < 1) {
+            return this.http.post("/api/category/" + name, null).map(function (result) { return _this.searchProducts = result.json(); });
+        }
+        else {
+            return this.http.post("/api/category/" + id + "/" + name, null).map(function (result) { return _this.searchProducts = result.json(); });
+        }
     };
     ShopService.prototype.loadProducts = function () {
         var _this = this;
         return this.http.get("/api/products")
-            .map(function (result) { return _this.products = result.json(); });
+            .map(function (result) {
+            return _this.products = _this.allProducts = result.json();
+        });
     };
     ShopService = __decorate([
         core_1.Injectable(),
