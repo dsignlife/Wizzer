@@ -10,7 +10,6 @@ import { ShopService } from '../shopService';
 @Injectable()
 export class ProductListSearch implements OnInit {
 
-    public categoryIds: number[] = [0, 1, 2, 3, 4, 5];
     public searchCategoryId: number = 0;
     public searchProductName: string;
 

@@ -14,7 +14,6 @@ var shopService_1 = require("../shopService");
 var ProductListSearch = /** @class */ (function () {
     function ProductListSearch(shopService) {
         this.shopService = shopService;
-        this.categoryIds = [0, 1, 2, 3, 4, 5];
         this.searchCategoryId = 0;
     }
     ProductListSearch.prototype.ngOnInit = function () {
