@@ -2,8 +2,7 @@
 import { ShopService } from '../shopService';
 import { Router } from "@angular/router";
 import { Headers } from "@angular/http";
-import { Order } from "../order/order";
-
+import { Order } from "../shared/shopmodels";
 
 
 @Component({

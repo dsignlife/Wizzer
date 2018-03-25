@@ -1,6 +1,7 @@
 ﻿import { Component, Injectable, OnInit } from "@angular/core";
 import { ShopService } from '../shopService';
-
+import { Observable } from "rxjs"
+import { Product } from "../shared/shopmodels";
 
 @Component({
     selector: "product-list-search",
@@ -20,7 +21,7 @@ export class ProductListSearch implements OnInit {
 
     ngOnInit() {
 
-        this.shopService.loadCategories()
+        this.loadCategories()
             .subscribe(success => {
                 if (success) {
                     //
@@ -34,14 +35,14 @@ export class ProductListSearch implements OnInit {
 
         if (this.searchCategoryId > -1) {
             if (this.searchProductName.length > 0) {
-                this.shopService.getSearchProductsByNameAndCategoryId(this.searchProductName, this.searchCategoryId)
+                this.getSearchProductsByNameAndCategoryId(this.searchProductName, this.searchCategoryId)
                     .subscribe(success => {
                         if (success) {
                             this.shopService.products = this.shopService.searchProducts;
                         }
                     });
             } else {
-                this.shopService.getSearchProductsByCategoryId(this.searchCategoryId).subscribe(success => {
+                this.getSearchProductsByCategoryId(this.searchCategoryId).subscribe(success => {
                     if (success) {
                         this.shopService.products = this.shopService.searchProducts;
 
@@ -60,5 +61,35 @@ export class ProductListSearch implements OnInit {
     public resetSearch() {
         this.shopService.products = this.shopService.allProducts;
     }
+
+
+
+    public loadCategories(): Observable<Product[]> {
+
+        return this.shopService.http.get("/api/category/")
+            .map((result) =>
+                this.shopService.allCategories = result.json()
+            );
+    }
+
+    public getSearchProductsByCategoryId(id: number): Observable<Product[]> {
+        if (id < 0)
+            id = 0;
+        return this.shopService.http.post("/api/category/" + id, null)
+            .map((result) => this.shopService.searchProducts = result.json());
+
+    }
+
+    public getSearchProductsByNameAndCategoryId(name: string, id: number): Observable<Product[]> {
+        if (id < 1) {
+            return this.shopService.http.post("/api/category/" + name, null).map((result) => this.shopService.searchProducts = result.json());
+        }
+        else {
+            return this.shopService.http.post("/api/category/" + id + "/" + name, null).map((result) => this.shopService.searchProducts = result.json());
+        }
+
+    }
+
+
 
 }

@@ -24,12 +24,12 @@ namespace Wizzer.Data.Repositories
 
             try
             {
-                _logger.LogInformation("GetAllProducts called");
+
                 return _context.Products.OrderBy(t => t.Title).Include(c => c.Category).ToListAsync();
             }
             catch (Exception e)
             {
-                _logger.LogError($"GetAllProducts failed : {e}");
+                _logger.LogError($"GetAllProductsAsync failed : {e}");
                 return null;
             }
 
