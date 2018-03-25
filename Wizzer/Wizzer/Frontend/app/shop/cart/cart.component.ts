@@ -1,5 +1,4 @@
 ﻿import { Component, Injectable } from "@angular/core";
-
 import { ShopService } from "../shopService";
 import { Router } from "@angular/router";
 

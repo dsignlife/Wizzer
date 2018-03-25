@@ -38,14 +38,14 @@ namespace Wizzer.Controllers
         {
             try
             {
-                _logger.LogInformation("GetAllCategories called");
+                _logger.LogInformation("GetAllCategoriesAsync called");
                 var allCategories = await _repository.GetAllCategoriesAsync();
                 return Ok(allCategories);
             }
             catch (Exception e)
             {
-                _logger.LogError($"Failed to : GetAllCategories {e}");
-                return BadRequest("Failed to GetAllCategories");
+                _logger.LogError($"Failed to : GetAllCategoriesAsync {e}");
+                return BadRequest("Failed to GetAllCategoriesAsync");
             }
         }
 

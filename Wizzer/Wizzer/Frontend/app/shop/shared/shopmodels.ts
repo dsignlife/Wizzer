@@ -1,6 +1,21 @@
 ﻿import * as _ from "lodash";
 
 
+export class Product {
+    id: number;
+    price: number;
+    title: string;
+    description: string;
+    categoryId: number;
+    category: Category;
+}
+
+export class Category {
+    categoryId: number;
+    categoryName: string;
+    description: string;
+}
+
 export class Order {
     orderId: number;
     orderDate: Date = new Date();
@@ -17,7 +32,7 @@ export class OrderItem {
     quantity: number;
     unitPrice: number;
 
-    productId: number;    
+    productId: number;
     productTitle: string;
     productDescription: string;
 

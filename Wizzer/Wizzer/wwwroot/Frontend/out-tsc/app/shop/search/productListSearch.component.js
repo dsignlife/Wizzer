@@ -17,7 +17,7 @@ var ProductListSearch = /** @class */ (function () {
         this.searchCategoryId = 0;
     }
     ProductListSearch.prototype.ngOnInit = function () {
-        this.shopService.loadCategories()
+        this.loadCategories()
             .subscribe(function (success) {
             if (success) {
                 //
@@ -28,7 +28,7 @@ var ProductListSearch = /** @class */ (function () {
         var _this = this;
         if (this.searchCategoryId > -1) {
             if (this.searchProductName.length > 0) {
-                this.shopService.getSearchProductsByNameAndCategoryId(this.searchProductName, this.searchCategoryId)
+                this.getSearchProductsByNameAndCategoryId(this.searchProductName, this.searchCategoryId)
                     .subscribe(function (success) {
                     if (success) {
                         _this.shopService.products = _this.shopService.searchProducts;
@@ -36,7 +36,7 @@ var ProductListSearch = /** @class */ (function () {
                 });
             }
             else {
-                this.shopService.getSearchProductsByCategoryId(this.searchCategoryId).subscribe(function (success) {
+                this.getSearchProductsByCategoryId(this.searchCategoryId).subscribe(function (success) {
                     if (success) {
                         _this.shopService.products = _this.shopService.searchProducts;
                     }
@@ -49,6 +49,29 @@ var ProductListSearch = /** @class */ (function () {
     };
     ProductListSearch.prototype.resetSearch = function () {
         this.shopService.products = this.shopService.allProducts;
+    };
+    ProductListSearch.prototype.loadCategories = function () {
+        var _this = this;
+        return this.shopService.http.get("/api/category/")
+            .map(function (result) {
+            return _this.shopService.allCategories = result.json();
+        });
+    };
+    ProductListSearch.prototype.getSearchProductsByCategoryId = function (id) {
+        var _this = this;
+        if (id < 0)
+            id = 0;
+        return this.shopService.http.post("/api/category/" + id, null)
+            .map(function (result) { return _this.shopService.searchProducts = result.json(); });
+    };
+    ProductListSearch.prototype.getSearchProductsByNameAndCategoryId = function (name, id) {
+        var _this = this;
+        if (id < 1) {
+            return this.shopService.http.post("/api/category/" + name, null).map(function (result) { return _this.shopService.searchProducts = result.json(); });
+        }
+        else {
+            return this.shopService.http.post("/api/category/" + id + "/" + name, null).map(function (result) { return _this.shopService.searchProducts = result.json(); });
+        }
     };
     ProductListSearch = __decorate([
         core_1.Component({

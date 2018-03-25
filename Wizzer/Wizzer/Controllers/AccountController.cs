@@ -51,6 +51,8 @@ namespace Wizzer.Controllers
 
             if (result.Succeeded)
             {
+                _logger.LogInformation($"{model.Username} logged in at {DateTime.Now}");
+
                 if (!Request.Query.Keys.Contains("ReturnURL"))
                     RedirectToAction("Shop", "App");
                 else
@@ -58,7 +60,6 @@ namespace Wizzer.Controllers
             }
 
             ModelState.AddModelError("", "Failed to login");
-            _logger.LogInformation("{USER} logged in at {Date}");
 
             return View();
         }
@@ -104,7 +105,7 @@ namespace Wizzer.Controllers
                 token = new JwtSecurityTokenHandler().WriteToken(token),
                 expiration = token.ValidTo
             };
-            //_logger.LogInformation("{results.token} requested by {USER} valid to {results.expiration}");
+            _logger.LogInformation($"Login token: {results.token} \nwas created by USER: {model.Username} at {DateTime.UtcNow} UTC valid to {token.ValidTo}");
             return Created("", results);
         }
     }

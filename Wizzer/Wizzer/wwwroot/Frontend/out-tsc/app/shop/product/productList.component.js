@@ -11,21 +11,43 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var shopService_1 = require("../shopService");
+var shopmodels_1 = require("../shared/shopmodels");
 require("rxjs/add/operator/map");
 var ProductList = /** @class */ (function () {
     function ProductList(shopService) {
         this.shopService = shopService;
     }
     ProductList.prototype.ngOnInit = function () {
-        this.shopService.loadProducts()
+        this.loadProducts()
             .subscribe(function (success) {
             if (success) {
                 //
             }
         });
     };
-    ProductList.prototype.addProduct = function (product) {
-        this.shopService.addToOrder(product);
+    ProductList.prototype.loadProducts = function () {
+        var _this = this;
+        return this.shopService.http.get("/api/products")
+            .map(function (result) {
+            return _this.shopService.products = _this.shopService.allProducts = result.json();
+        });
+    };
+    ProductList.prototype.addToOrder = function (product) {
+        var item = this.shopService.order.items.find(function (i) { return i.productId === product.id; });
+        if (item) {
+            item.quantity++;
+        }
+        else {
+            item = new shopmodels_1.OrderItem();
+            item.productId = product.id;
+            item.productTitle = product.title;
+            item.productDescription = product.description;
+            item.categoryId = product.category.categoryId;
+            item.categoryName = product.category.categoryName;
+            item.unitPrice = product.price;
+            item.quantity = 1;
+            this.shopService.order.items.push(item);
+        }
     };
     ProductList = __decorate([
         core_1.Component({

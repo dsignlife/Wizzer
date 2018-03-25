@@ -35,4 +35,4 @@ var OrderItem = /** @class */ (function () {
     return OrderItem;
 }());
 exports.OrderItem = OrderItem;
-//# sourceMappingURL=product.js.map
+//# sourceMappingURL=shopmodels.js.map

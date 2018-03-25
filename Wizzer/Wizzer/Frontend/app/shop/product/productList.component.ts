@@ -1,7 +1,7 @@
 ﻿import { Component, Injectable, OnInit } from "@angular/core";
 import { ShopService } from '../shopService';
-import { Product, Category } from "./product";
-
+import { Product, OrderItem } from "../shared/shopmodels";
+import { Observable } from "rxjs"
 import 'rxjs/add/operator/map';
 
 
@@ -20,7 +20,7 @@ export class ProductList implements OnInit {
 
     ngOnInit() {
 
-        this.shopService.loadProducts()
+        this.loadProducts()
             .subscribe(success => {
                 if (success) {
                     //
@@ -30,8 +30,36 @@ export class ProductList implements OnInit {
 
     }
 
-    public addProduct(product: Product) {
-        this.shopService.addToOrder(product);
+    public loadProducts(): Observable<Product[]> {
+
+        return this.shopService.http.get("/api/products")
+            .map(result =>
+                this.shopService.products = this.shopService.allProducts = result.json()
+            );
     }
+
+    public addToOrder(product: Product) {
+
+        let item = this.shopService.order.items.find(i => i.productId === product.id);
+        if (item) {
+            item.quantity++;
+        } else {
+            
+            item = new OrderItem();
+            item.productId = product.id;
+            item.productTitle = product.title;
+            item.productDescription = product.description;
+
+            item.categoryId = product.category.categoryId;
+            item.categoryName = product.category.categoryName;
+
+            item.unitPrice = product.price;
+            item.quantity = 1;
+            this.shopService.order.items.push(item);
+
+        }
+    }
+
+
 
 }

@@ -26,6 +26,7 @@ namespace Wizzer.Controllers
         public async Task<IActionResult> Get()
         {
             try {
+                _logger.LogInformation("GetAllProductsAsync called");
                 var products = await _repository.GetAllProductsAsync();
                 return Ok(products);
             }

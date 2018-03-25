@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var order_1 = require("./order/order");
+var shopmodels_1 = require("./shared/shopmodels");
 var loginService_1 = require("../.../../login/loginService");
 var http_1 = require("@angular/http");
 require("rxjs/add/operator/map");
@@ -22,35 +22,10 @@ var ShopService = /** @class */ (function () {
         this.products = [];
         this.allCategories = [];
         this.searchProducts = [];
-        this.order = new order_1.Order();
+        this.order = new shopmodels_1.Order();
     }
-    ///Product List
-    ShopService.prototype.loadProducts = function () {
-        var _this = this;
-        return this.http.get("/api/products")
-            .map(function (result) {
-            return _this.products = _this.allProducts = result.json();
-        });
-    };
-    ShopService.prototype.addToOrder = function (product) {
-        var item = this.order.items.find(function (i) { return i.productId === product.id; });
-        if (item) {
-            item.quantity++;
-        }
-        else {
-            item = new order_1.OrderItem();
-            item.productId = product.id;
-            item.productTitle = product.title;
-            item.productDescription = product.description;
-            item.categoryId = product.category.categoryId;
-            item.categoryName = product.category.categoryName;
-            item.unitPrice = product.price;
-            item.quantity = 1;
-            this.order.items.push(item);
-        }
-    };
     Object.defineProperty(ShopService.prototype, "loginRequired", {
-        ///Login
+        //Login
         get: function () {
             return this.loginService.loginRequired;
         },
@@ -59,30 +34,6 @@ var ShopService = /** @class */ (function () {
     });
     ShopService.prototype.login = function (creds) {
         return this.loginService.login(creds);
-    };
-    ///Searching
-    ShopService.prototype.loadCategories = function () {
-        var _this = this;
-        return this.http.get("/api/category/")
-            .map(function (result) {
-            return _this.allCategories = result.json();
-        });
-    };
-    ShopService.prototype.getSearchProductsByCategoryId = function (id) {
-        var _this = this;
-        if (id < 0)
-            id = 0;
-        return this.http.post("/api/category/" + id, null)
-            .map(function (result) { return _this.searchProducts = result.json(); });
-    };
-    ShopService.prototype.getSearchProductsByNameAndCategoryId = function (name, id) {
-        var _this = this;
-        if (id < 1) {
-            return this.http.post("/api/category/" + name, null).map(function (result) { return _this.searchProducts = result.json(); });
-        }
-        else {
-            return this.http.post("/api/category/" + id + "/" + name, null).map(function (result) { return _this.searchProducts = result.json(); });
-        }
     };
     ShopService = __decorate([
         core_1.Injectable(),

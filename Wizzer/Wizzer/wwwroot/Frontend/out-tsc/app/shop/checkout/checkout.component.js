@@ -13,7 +13,7 @@ var core_1 = require("@angular/core");
 var shopService_1 = require("../shopService");
 var router_1 = require("@angular/router");
 var http_1 = require("@angular/http");
-var order_1 = require("../order/order");
+var shopmodels_1 = require("../shared/shopmodels");
 var Checkout = /** @class */ (function () {
     function Checkout(shopService, router) {
         this.shopService = shopService;
@@ -37,7 +37,7 @@ var Checkout = /** @class */ (function () {
             headers: new http_1.Headers({ "Authorization": "Bearer " + this.shopService.loginService.token })
         })
             .map(function (response) {
-            _this.shopService.order = new order_1.Order();
+            _this.shopService.order = new shopmodels_1.Order();
             return true;
         });
     };
